@@ -1,5 +1,5 @@
 #include "VpnConnection.h"
-#include "ui_VpnConnection.h"
+#include "ui_VpnConnectionWindow.h"
 
 VpnConnection::VpnConnection(const VpnConnectionItem &item, QWidget *parent)
     : QMainWindow(parent), ui(new Ui::VpnConnection),
