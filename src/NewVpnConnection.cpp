@@ -45,6 +45,9 @@ void NewVpnConnection::initWindow() {
 
     connect(_ui->comboBoxTypeAuth, &QComboBox::currentIndexChanged, this, &NewVpnConnection::updateAuthMethod);
     emit _ui->comboBoxTypeAuth->currentIndexChanged(0);
+
+    connect(_ui->pushButtonOk, &QPushButton::clicked, this, &NewVpnConnection::createNewConnection);
+    connect(_ui->pushButtonCancel, &QPushButton::clicked, this, &NewVpnConnection::close);
 }
 
 void NewVpnConnection::updateListNics() {
@@ -235,7 +238,7 @@ void NewVpnConnection::clearAuthType() {
     }
 }
 
-NewVpnConnection::AuthType NewVpnConnection::getAuthType() {
+AuthType NewVpnConnection::getAuthType() {
     AuthType curAuthType;
 
     auto index = _ui->comboBoxTypeAuth->currentIndex();
@@ -244,29 +247,77 @@ NewVpnConnection::AuthType NewVpnConnection::getAuthType() {
     case (int)AuthType::Standart:    curAuthType = AuthType::Standart; break;
     case (int)AuthType::Radius:      curAuthType = AuthType::Radius; break;
     case (int)AuthType::Certificate: curAuthType = AuthType::Certificate; break;
-    case (int)AuthType::SmartCard:   curAuthType = AuthType::SmartCard; break;
+    case (int)AuthType::SecureDevice:   curAuthType = AuthType::SecureDevice; break;
     default: curAuthType = AuthType::Unknown; break;
     }
     return curAuthType;
 }
 
 void NewVpnConnection::createNewConnection() {
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    AccountAdapter acAdapter;
+
     // first configure
-    auto settingName = _ui->lineEditSettingName->text();
+    acAdapter.setAccountName(_ui->lineEditSettingName->text());
 
     // Destination VPN Server
-    auto hostName = _ui->lineEditHostName->text();
-    auto portNumber = _ui->comboBoxPort->currentText();
-    auto virtHubName = _ui->comboBoxHubName->currentText();
+    acAdapter.setHostName(_ui->lineEditHostName->text());
+    acAdapter.setPort(_ui->comboBoxPort->currentText().toInt());
+    acAdapter.setHubName(_ui->comboBoxHubName->currentText());
 
     // Proxy Server as Relay
-
 
     // Server Certificate Verification Option
 
     // User Authentication Setting
 
-    auto userName = _ui->lineEditUserName->text();
+    acAdapter.setUserName(_ui->lineEditUserName->text());
+    QString userPassword;
+
+    switch (getAuthType()) {
+    case AuthType::Anonymous: {
+        qDebug() << "AuthType::Anonymous not found";
+    }; break;
+    case AuthType::Standart: {
+        auto lineEditUserPassword = findChild<QLineEdit*>("lineEditUserPassword");
+        if (lineEditUserPassword != NULL) {
+            userPassword = lineEditUserPassword->text();
+        }
+        else {
+            qDebug() << "error - password is NULL";
+        }
+    }; break;
+    case AuthType::Radius: {
+        auto lineEditUserPassword = findChild<QLineEdit*>("lineEditUserPassword");
+        if (lineEditUserPassword != NULL) {
+            userPassword = lineEditUserPassword->text();
+        }
+        else {
+            qDebug() << "error - password is NULL";
+        }
+    }; break;
+    case AuthType::Certificate: {
+        qDebug() << "AuthType::Certificate not found";
+    }; break;
+    case AuthType::SecureDevice: {
+        qDebug() << "AuthType::SmartCard not found";
+    }; break;
+    default: {
+        qDebug() << "AuthType not found";
+    }; break;
+    }
+
+    acAdapter.setPassword(userPassword);
+    acAdapter.setAuthType(getAuthType());
+
+    qDebug() << acAdapter;
+    auto err = cmdAdapter.createAccount(acAdapter);
+    if (err != ERR_NO_ERROR) {
+        QMessageBox::critical(this, PROGRAMM_NAME, GetErrorStr(err));
+        return;
+    }
+
+    close();
 }
 
 void NewVpnConnection::updateAuthMethod(int index) {
@@ -290,7 +341,7 @@ void NewVpnConnection::updateAuthMethod(int index) {
         setCertificateAuth();
     }; break;
     // Smart Card Authentication
-    case (int)AuthType::SmartCard: {
+    case (int)AuthType::SecureDevice: {
         setSmartCardAuth();
     }; break;
     default: break;

@@ -10,6 +10,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class newVpnConSettingWindow; }
 QT_END_NAMESPACE
 
+using AuthType = AccountAdapter::AuthType;
+
 class NewVpnConnection : public IVpnConnection, public QMainWindow {
 public:
     NewVpnConnection(QString name, QWidget* parent = nullptr);
@@ -20,16 +22,6 @@ public:
     QString getVirtualHub() override;
     QString getVirtualNetworkAdapter() override;
     void openWindow() override;
-
-private:
-    enum class AuthType {
-        Anonymous = 0,
-        Standart,
-        Radius,
-        Certificate,
-        SmartCard,
-        Unknown
-    };
 
 private:
     void initWindow();
