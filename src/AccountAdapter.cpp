@@ -7,13 +7,14 @@ AccountAdapter::AccountAdapter() {
 
 AccountAdapter::AccountAdapter(const RpcGtAc *other) {
     alloc();
-    copy(_account, other);
+    auto ptr = (wchar_t*)other;
+    auto copyOther = (RpcCrAc*)(ptr + MAX_ACCOUNT_NAME_LEN + 1);
+    copy(_account, copyOther);
 }
 
 AccountAdapter::AccountAdapter(const RpcCrAc *other) {
     alloc();
-    auto copyAccount = (RpcCrAc*)_account;
-    copy(copyAccount, other);
+    copy(_account, other);
 }
 
 AccountAdapter::~AccountAdapter() {
@@ -133,15 +134,41 @@ RpcCrAc *AccountAdapter::getRpcClientCreateAccount() {
     return (RpcCrAc*)_account;
 }
 
+#ifdef QT_DEBUG
+QDebug operator << (QDebug debug, const AccountAdapter& other) {
+    QDebugStateSaver saver(debug);
+    debug.nospace() << "[AccountAdapter]:\n"
+                    << " CLIENT_OPTION:\n"
+                    << "  AccountName   =" << QString::fromStdWString(other._account->ClientOption->AccountName) << "\n"
+                    << "  HostName      =" << other._account->ClientOption->Hostname << "\n"
+                    << "  Port          =" << other._account->ClientOption->Port << "\n"
+                    << "  PortUdp       =" << other._account->ClientOption->PortUDP << "\n"
+                    << "  ProxyType     =" << other._account->ClientOption->ProxyType << "\n"
+                    << "  ProxyName     =" << other._account->ClientOption->ProxyName << "\n"
+                    << "  ProxyUserName =" << other._account->ClientOption->ProxyUsername << "\n"
+                    << "  ProxyPassword =" << other._account->ClientOption->ProxyPassword << "\n"
+                    << "  HubName       =" << other._account->ClientOption->HubName << "\n"
+                    << "  DeviceName    =" << other._account->ClientOption->DeviceName << "\n"
+                    << " CLIENT_AUTH:\n"
+                    << "  AuthType      =" << other._account->ClientAuth->AuthType << "\n"
+                    << "  UserName      =" << other._account->ClientAuth->Username << "\n"
+                    << "  PlainPassword =" << other._account->ClientAuth->PlainPassword << "\n";
+//                 << "AccountName=" << _account->AccountName << "\n"
+//                 << "" << _account->
+
+    return debug;
+}
+#endif
+
 void AccountAdapter::alloc() {
-    _account = new RpcGtAc;
-    Zero(_account, sizeof(_account));
+    _account = new RpcCrAc;
+    Zero(_account, sizeof(RpcCrAc));
 
     _account->ClientOption = new CLIENT_OPTION;
-    Zero(_account->ClientOption, sizeof(_account->ClientOption));
+    Zero(_account->ClientOption, sizeof(CLIENT_OPTION));
 
     _account->ClientAuth = new CLIENT_AUTH;
-    Zero(_account->ClientAuth, sizeof(_account->ClientAuth));
+    Zero(_account->ClientAuth, sizeof(CLIENT_AUTH));
 //    _account->ClientAuth->ClientX = new X;
 //    _account->ClientAuth->ClientK = new K;
 //    _account->ServerCert = new X;
@@ -168,11 +195,3 @@ void AccountAdapter::copy(RpcCrAc *dest, const RpcCrAc *src) {
     memcpy(dest->ClientAuth, src->ClientAuth, sizeof(CLIENT_AUTH));
 }
 
-void AccountAdapter::copy(RpcGtAc *dest, const RpcGtAc *src) {
-    auto copyDest = (RpcCrAc*)dest;
-    auto copySrc = (RpcCrAc*)src;
-    copy(copyDest, copySrc);
-    dest->UpdateDateTime = src->UpdateDateTime;
-    dest->CreateDateTime = src->CreateDateTime;
-    dest->LastConnectDateTime = src->LastConnectDateTime;
-}

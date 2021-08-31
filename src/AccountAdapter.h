@@ -25,7 +25,8 @@ public:
         Radius = CLIENT_AUTHTYPE_PLAIN_PASSWORD,
         Certificate = CLIENT_AUTHTYPE_CERT,
         SecureDevice = CLIENT_AUTHTYPE_SECURE,
-        Openssl = CLIENT_AUTHTYPE_OPENSSLENGINE
+        Openssl = CLIENT_AUTHTYPE_OPENSSLENGINE,
+        Unknown,
     };
 
 public:
@@ -55,15 +56,18 @@ public:
     QString  getPassword() const;
     RpcCrAc* getRpcClientCreateAccount();
 
+#ifdef QT_DEBUG
+    friend QDebug operator << (QDebug debug, const AccountAdapter& other);
+#endif
+
 private:
     void alloc();
     void free();
     void init();
     static void copy(RpcCrAc* dest, const RpcCrAc* src);
-    static void copy(RpcGtAc* dest, const RpcGtAc* src);
 
 private:
-    RpcGtAc* _account;
+    RpcCrAc* _account;
 };
 
 #endif // ACCOUNTADAPTER_H
