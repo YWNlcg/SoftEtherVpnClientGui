@@ -102,6 +102,7 @@ int CmdAdapter::getAccountList(QVector<VpnConnectionItem> &items) {
     for (uint i = 0 ; i < t->NumItem; ++i) {
         items.push_back({
                             QString::fromStdWString(t->Items[i]->AccountName),
+                            t->Items[i]->Active,
                             t->Items[i]->Connected,
                             t->Items[i]->ServerName,
                             t->Items[i]->HubName,

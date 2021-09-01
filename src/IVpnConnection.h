@@ -6,7 +6,7 @@
 
 class IVpnConnection {
 public:
-    enum Status {Null, Connected, Disconnected};
+    enum Status {Null, Connecting, Connected, Disconnected};
 
 public:
     virtual QString getName() = 0;

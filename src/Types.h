@@ -37,6 +37,7 @@ struct Nic {
 
 struct VpnConnectionItem {
     QString _vpnConName;
+    bool    _active;
     bool    _connected;
     QString _vpnServerName;
     QString _virtualHub;
