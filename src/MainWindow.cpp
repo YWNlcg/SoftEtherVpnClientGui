@@ -95,6 +95,26 @@ void MainWindow::disconnectTo(const QString &name) {
     updateTableVpnConnection();
 }
 
+void MainWindow::deleteConnection(const QString &name) {
+    QString title = "SoftEther VPN Client";
+    QString lable = QString("This will delete VPN Connection Setting \"%1\".\n"
+                            "Do you really want to do this?").arg(name);
+
+    auto reply = QMessageBox::question(this, title, lable, QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::No) {
+        return;
+    }
+
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    auto err = cmdAdapter.deleteAccount(name);
+    if (err != ERR_NO_ERROR) {
+        auto msgErr = GetErrorStr(err);
+        QMessageBox::critical(this, PROGRAMM_NAME, msgErr);
+        return;
+    }
+    updateTableVpnConnection();
+}
+
 void MainWindow::init() {
     initTableVpnConnection();
     initTableVirtualAdapters();
@@ -132,9 +152,10 @@ void MainWindow::updateTableVpnConnection() {
 
         QString status;
         switch (iter.value()->getStatus()) {
-            case IVpnConnection::Status::Null: status = "";break;
-            case IVpnConnection::Status::Disconnected: status = "Disconnected";break;
-            case IVpnConnection::Status::Connected: status = "Connected";break;
+        case IVpnConnection::Status::Null: status = "";break;
+        case IVpnConnection::Status::Disconnected: status = "Disconnected";break;
+        case IVpnConnection::Status::Connected: status = "Connected";break;
+        case IVpnConnection::Status::Connecting: status = "Connecting"; break;
         }
 
         tableConSettings->insertRow(num);
@@ -259,18 +280,21 @@ void MainWindow::contextMenuConSettings(const QPoint& pos) {
     auto actionViewStatus = new QAction("View Status...");
     auto actionDisconnect = new QAction("Disconnect");
     auto actionNewConSettings = new QAction("New VPN Connection Settings...");
+    auto actionDelete = new QAction("Delete");
 
     contextMenu->addAction(actionConnect);
     contextMenu->addAction(actionViewStatus);
     contextMenu->addAction(actionDisconnect);
     contextMenu->addAction(actionNewConSettings);
+    contextMenu->addAction(actionDelete);
 
-    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
+    auto selectedItem = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
     // Empty area selected
     if (selectedItem == NULL) {
         actionConnect->setDisabled(true);
         actionViewStatus->setDisabled(true);
         actionDisconnect->setDisabled(true);
+        actionDelete->setDisabled(true);
     }
     else {
         auto curRow = selectedItem->row();
@@ -281,15 +305,21 @@ void MainWindow::contextMenuConSettings(const QPoint& pos) {
             actionConnect->setDisabled(true);
             actionViewStatus->setDisabled(true);
             actionDisconnect->setDisabled(true);
+            actionDelete->setDisabled(true);
         }
         else if (status == IVpnConnection::Status::Connected) {
             actionConnect->setDisabled(true);
+            actionDelete->setDisabled(true);
+        }
+        else if (status == IVpnConnection::Status::Connecting) {
+            actionConnect->setDisabled(true);
+            actionDelete->setDisabled(true);
         }
         else if (status == IVpnConnection::Status::Disconnected) {
             actionDisconnect->setDisabled(true);
         }
 
-        auto settingName = _ui->TableWidgetNicSettings->item(selectedItem->row(), 0)->text();
+        auto settingName = _ui->TableWidgetVpnConnectionSettings->item(curRow, 0)->text();
         qDebug() << "settingName=" << settingName;
 
         connect(actionConnect, &QAction::triggered, this, [&, settingName] () {
@@ -297,6 +327,9 @@ void MainWindow::contextMenuConSettings(const QPoint& pos) {
         });
         connect(actionDisconnect, &QAction::triggered, this, [&, settingName] () {
             disconnectTo(settingName);
+        });
+        connect(actionDelete, &QAction::triggered, this, [&, settingName] () {
+            deleteConnection(settingName);
         });
     }
 

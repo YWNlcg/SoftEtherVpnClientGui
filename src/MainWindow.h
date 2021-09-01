@@ -31,18 +31,19 @@ private:
     void updateTableVirtualAdapters();
     void initVpnConnectios();
     void freeVpnConnection();
+    void createNic();
+    void deleteNic(const QString& nicName);
+    void disableNic(const QString& nicName);
+    void enableNic(const QString& nicName);
     void connectTo(const QString& name);
     void disconnectTo(const QString& name);
+    void deleteConnection(const QString& name);
 
 private slots:
     void contextMenuVirtNetAdapters(const QPoint& pos);
     void contextMenuConSettings(const QPoint& pos);
     void newConWindow(int row, int column);
     void vpnConDoubleClicked(int row, int column);
-    void createNic();
-    void deleteNic(const QString& nicName);
-    void disableNic(const QString& nicName);
-    void enableNic(const QString& nicName);
 
 private:
     Ui::MainWindow* _ui;

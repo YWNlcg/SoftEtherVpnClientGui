@@ -18,7 +18,17 @@ QString VpnConnection::getName() {
 }
 
 IVpnConnection::Status VpnConnection::getStatus() {
-    return _data->_connected ? Status::Connected : Status::Disconnected;
+    Status status;
+    if (_data->_connected) {
+        status = Status::Connected;
+    }
+    else if (_data->_active) {
+        status = Status::Connecting;
+    }
+    else {
+        status = Status::Disconnected;
+    }
+    return status;
 }
 
 QString VpnConnection::getVpnServerName() {
