@@ -27,6 +27,8 @@ public:
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<VpnConnectionItem>& account);
     int getConnectionStatus(const QString& conName);
+    int connect(const QString& name);
+    int disconnect(const QString& name);
 
 private:
     VpnClient* _vpnClient;

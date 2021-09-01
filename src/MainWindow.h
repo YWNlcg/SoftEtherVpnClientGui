@@ -26,11 +26,13 @@ public:
 private:
     void init();
     void initTableVpnConnection();
-    void updateTAbleVpnConnection();
+    void updateTableVpnConnection();
     void initTableVirtualAdapters();
     void updateTableVirtualAdapters();
     void initVpnConnectios();
     void freeVpnConnection();
+    void connectTo(const QString& name);
+    void disconnectTo(const QString& name);
 
 private slots:
     void contextMenuVirtNetAdapters(const QPoint& pos);

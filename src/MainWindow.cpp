@@ -73,6 +73,28 @@ void MainWindow::enableNic(const QString &nicName) {
     updateTableVirtualAdapters();
 }
 
+void MainWindow::connectTo(const QString &name) {
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    auto err = cmdAdapter.connect(name);
+    if (err != ERR_NO_ERROR) {
+        auto msgErr = GetErrorStr(err);
+        QMessageBox::critical(this, PROGRAMM_NAME, msgErr);
+        return;
+    }
+    updateTableVpnConnection();
+}
+
+void MainWindow::disconnectTo(const QString &name) {
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    auto err = cmdAdapter.disconnect(name);
+    if (err != ERR_NO_ERROR) {
+        auto msgErr = GetErrorStr(err);
+        QMessageBox::critical(this, PROGRAMM_NAME, msgErr);
+        return;
+    }
+    updateTableVpnConnection();
+}
+
 void MainWindow::init() {
     initTableVpnConnection();
     initTableVirtualAdapters();
@@ -82,7 +104,7 @@ void MainWindow::initTableVpnConnection() {
     initVpnConnectios();
     auto& tableConSettings = _ui->TableWidgetVpnConnectionSettings;
 
-    updateTAbleVpnConnection();
+    updateTableVpnConnection();
 
     tableConSettings->resizeColumnsToContents();
     tableConSettings->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -95,7 +117,7 @@ void MainWindow::initTableVpnConnection() {
             this, SLOT(vpnConDoubleClicked(int, int)));
 }
 
-void MainWindow::updateTAbleVpnConnection() {
+void MainWindow::updateTableVpnConnection() {
     auto tableConSettings = _ui->TableWidgetVpnConnectionSettings;
     for (auto i = tableConSettings->rowCount() - 1; i >= 0; --i) {
         tableConSettings->removeRow(i);
@@ -122,6 +144,7 @@ void MainWindow::updateTAbleVpnConnection() {
         tableConSettings->setItem(num, 3, new QTableWidgetItem(virtualHub));
         tableConSettings->setItem(num, 4, new QTableWidgetItem(nic));
     }
+    tableConSettings->resizeColumnsToContents();
 }
 
 void MainWindow::initTableVirtualAdapters() {
@@ -158,6 +181,7 @@ void MainWindow::updateTableVirtualAdapters() {
 
         ++num;
     }
+    tableVirtAdapters->resizeColumnsToContents();
 }
 
 void MainWindow::initVpnConnectios() {
@@ -228,18 +252,57 @@ void MainWindow::contextMenuVirtNetAdapters(const QPoint &pos) {
     contextMenu->exec(QCursor::pos());
 }
 
-void MainWindow::contextMenuConSettings(const QPoint&) {
+void MainWindow::contextMenuConSettings(const QPoint& pos) {
     auto contextMenu = new QMenu(this);
 
-    auto connect = new QAction("Connect");
-    auto viewStatus = new QAction("View Status...");
-    auto disconnect = new QAction("Disconnect");
-    auto newConSettings = new QAction("New VPN Connection Settings...");
+    auto actionConnect = new QAction("Connect");
+    auto actionViewStatus = new QAction("View Status...");
+    auto actionDisconnect = new QAction("Disconnect");
+    auto actionNewConSettings = new QAction("New VPN Connection Settings...");
 
-    contextMenu->addAction(connect);
-    contextMenu->addAction(viewStatus);
-    contextMenu->addAction(disconnect);
-    contextMenu->addAction(newConSettings);
+    contextMenu->addAction(actionConnect);
+    contextMenu->addAction(actionViewStatus);
+    contextMenu->addAction(actionDisconnect);
+    contextMenu->addAction(actionNewConSettings);
+
+    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
+    // Empty area selected
+    if (selectedItem == NULL) {
+        actionConnect->setDisabled(true);
+        actionViewStatus->setDisabled(true);
+        actionDisconnect->setDisabled(true);
+    }
+    else {
+        auto curRow = selectedItem->row();
+        qDebug() << "context menu row=" << curRow;
+        auto status = _vpnCon[curRow]->getStatus();
+
+        if (status == IVpnConnection::Status::Null) {
+            actionConnect->setDisabled(true);
+            actionViewStatus->setDisabled(true);
+            actionDisconnect->setDisabled(true);
+        }
+        else if (status == IVpnConnection::Status::Connected) {
+            actionConnect->setDisabled(true);
+        }
+        else if (status == IVpnConnection::Status::Disconnected) {
+            actionDisconnect->setDisabled(true);
+        }
+
+        auto settingName = _ui->TableWidgetNicSettings->item(selectedItem->row(), 0)->text();
+        qDebug() << "settingName=" << settingName;
+
+        connect(actionConnect, &QAction::triggered, this, [&, settingName] () {
+            connectTo(settingName);
+        });
+        connect(actionDisconnect, &QAction::triggered, this, [&, settingName] () {
+            disconnectTo(settingName);
+        });
+    }
+
+    connect(actionNewConSettings, &QAction::triggered, this, [&] () {
+        vpnConDoubleClicked(0, 0);
+    });
 
     contextMenu->exec(QCursor::pos());
 }
