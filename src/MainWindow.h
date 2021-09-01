@@ -24,19 +24,19 @@ public:
     void closeEvent(QCloseEvent *event) override;
 
 private:
-    void Init();
-    void InitTableVpnConnection();
+    void init();
+    void initTableVpnConnection();
     void updateTAbleVpnConnection();
-    void InitTableVirtualAdapters();
+    void initTableVirtualAdapters();
     void updateTableVirtualAdapters();
-    void InitVpnConnectios();
-    void FreeVpnConnection();
+    void initVpnConnectios();
+    void freeVpnConnection();
 
 private slots:
-    void ContextMenuVirtNetAdapters(const QPoint& pos);
-    void ContextMenuConSettings(const QPoint& pos);
-    void NewConWindow(int row, int column);
-    void VpnConDoubleClicked(int row, int column);
+    void contextMenuVirtNetAdapters(const QPoint& pos);
+    void contextMenuConSettings(const QPoint& pos);
+    void newConWindow(int row, int column);
+    void vpnConDoubleClicked(int row, int column);
     void createNic();
     void deleteNic(const QString& nicName);
     void disableNic(const QString& nicName);

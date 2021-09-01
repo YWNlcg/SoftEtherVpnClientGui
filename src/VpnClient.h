@@ -11,14 +11,14 @@ public:
     VpnClient() {};
     VpnClient(int argc, char** argv);
     ~VpnClient();
-    void Connect(const char* serverName, const char* serverPass);
-    CONSOLE* GetConsole();
-    REMOTE_CLIENT* GetRemoteClient();
-    PC* GetPc();
+    void connect(const char* serverName, const char* serverPass);
+    CONSOLE* getConsole();
+    REMOTE_CLIENT* getRemoteClient();
+    PC* getPc();
 
 private:
-    void Init(int argc, char** argv);
-    void Free();
+    void init(int argc, char** argv);
+    void free();
 
 private:
     CONSOLE* _console;

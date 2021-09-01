@@ -2,14 +2,14 @@
 
 VpnClient::VpnClient(int argc, char **argv)
     : _console(NULL), _client(NULL), _pc(NULL) {
-    Init(argc, argv);
+    init(argc, argv);
 }
 
 VpnClient::~VpnClient() {
-    Free();
+    free();
 }
 
-void VpnClient::Connect(const char* serverName, const char* serverPass) {
+void VpnClient::connect(const char* serverName, const char* serverPass) {
     auto lengthServerName = strlen(serverName);
     auto lengthServerPass = strlen(serverPass);
     char* copyServerName = new char[lengthServerName + 1];
@@ -35,24 +35,24 @@ void VpnClient::Connect(const char* serverName, const char* serverPass) {
     }
 }
 
-CONSOLE *VpnClient::GetConsole() {
+CONSOLE *VpnClient::getConsole() {
     return _console;
 }
 
-REMOTE_CLIENT *VpnClient::GetRemoteClient() {
+REMOTE_CLIENT *VpnClient::getRemoteClient() {
     return _client;
 }
 
-PC *VpnClient::GetPc() {
+PC *VpnClient::getPc() {
     return _pc;
 }
 
-void VpnClient::Init(int argc, char **argv) {
+void VpnClient::init(int argc, char **argv) {
     InitMayaqua(MAYAQUA_DEBUG, MAYAQUA_DEBUG, argc, argv);
     InitCedar();
 }
 
-void VpnClient::Free() {
+void VpnClient::free() {
     FreeCedar();
     FreeMayaqua();
 }

@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
     VpnClient cl(argc, argv);
-    cl.Connect("localhost", "");
+    cl.connect("localhost", "");
     auto& cmdAdapter = GetCmdAdapterInstance();
     cmdAdapter.init(&cl);
 

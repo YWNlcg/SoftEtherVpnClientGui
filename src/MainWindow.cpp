@@ -6,7 +6,7 @@ extern CmdAdapter& GetCmdAdapterInstance();
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), _ui(new Ui::MainWindow) {
     _ui->setupUi(this);
-    Init();
+    init();
 }
 
 MainWindow::~MainWindow() {
@@ -20,7 +20,6 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::createNic() {
-    qDebug() << "rtytr";
     QString title = "Create New Virtual Network Adapter";
     QString lable = "A new Virtual Adapter will be created on the system";
     bool ok;
@@ -74,13 +73,13 @@ void MainWindow::enableNic(const QString &nicName) {
     updateTableVirtualAdapters();
 }
 
-void MainWindow::Init() {
-    InitTableVpnConnection();
-    InitTableVirtualAdapters();
+void MainWindow::init() {
+    initTableVpnConnection();
+    initTableVirtualAdapters();
 }
 
-void MainWindow::InitTableVpnConnection() {
-    InitVpnConnectios();
+void MainWindow::initTableVpnConnection() {
+    initVpnConnectios();
     auto& tableConSettings = _ui->TableWidgetVpnConnectionSettings;
 
     updateTAbleVpnConnection();
@@ -91,9 +90,9 @@ void MainWindow::InitTableVpnConnection() {
     tableConSettings->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(tableConSettings, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(ContextMenuConSettings(const QPoint&)));
+            this, SLOT(contextMenuConSettings(const QPoint&)));
     connect(tableConSettings, SIGNAL(cellDoubleClicked(int, int)),
-            this, SLOT(VpnConDoubleClicked(int, int)));
+            this, SLOT(vpnConDoubleClicked(int, int)));
 }
 
 void MainWindow::updateTAbleVpnConnection() {
@@ -125,7 +124,7 @@ void MainWindow::updateTAbleVpnConnection() {
     }
 }
 
-void MainWindow::InitTableVirtualAdapters() {
+void MainWindow::initTableVirtualAdapters() {
     auto& tableVirtAdapters = _ui->TableWidgetNicSettings;
 
     updateTableVirtualAdapters();
@@ -136,7 +135,7 @@ void MainWindow::InitTableVirtualAdapters() {
     tableVirtAdapters->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(tableVirtAdapters, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(ContextMenuVirtNetAdapters(const QPoint&)));
+            this, SLOT(contextMenuVirtNetAdapters(const QPoint&)));
 }
 
 void MainWindow::updateTableVirtualAdapters() {
@@ -161,7 +160,7 @@ void MainWindow::updateTableVirtualAdapters() {
     }
 }
 
-void MainWindow::InitVpnConnectios() {
+void MainWindow::initVpnConnectios() {
     auto& cmdAdapter = GetCmdAdapterInstance();
     QVector<VpnConnectionItem> items;
     cmdAdapter.getAccountList(items);
@@ -175,13 +174,13 @@ void MainWindow::InitVpnConnectios() {
     }
 }
 
-void MainWindow::FreeVpnConnection() {
+void MainWindow::freeVpnConnection() {
     for (auto& item: _vpnCon) {
         delete item;
     }
 }
 
-void MainWindow::ContextMenuVirtNetAdapters(const QPoint &pos) {
+void MainWindow::contextMenuVirtNetAdapters(const QPoint &pos) {
     auto contextMenu = new QMenu(this);
 
     auto newAdapter = new QAction("New Virtual Network Adapter...");
@@ -229,7 +228,7 @@ void MainWindow::ContextMenuVirtNetAdapters(const QPoint &pos) {
     contextMenu->exec(QCursor::pos());
 }
 
-void MainWindow::ContextMenuConSettings(const QPoint&) {
+void MainWindow::contextMenuConSettings(const QPoint&) {
     auto contextMenu = new QMenu(this);
 
     auto connect = new QAction("Connect");
@@ -245,11 +244,11 @@ void MainWindow::ContextMenuConSettings(const QPoint&) {
     contextMenu->exec(QCursor::pos());
 }
 
-void MainWindow::NewConWindow(int row, int column) {
+void MainWindow::newConWindow(int row, int column) {
 
 }
 
-void MainWindow::VpnConDoubleClicked(int row, int) {
+void MainWindow::vpnConDoubleClicked(int row, int) {
     _vpnCon[row]->openWindow();
     //this->setDisabled(true);
 }
