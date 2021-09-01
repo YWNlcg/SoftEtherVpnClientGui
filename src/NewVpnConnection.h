@@ -33,10 +33,12 @@ private:
     void setSmartCardAuth();
     void clearAuthType();
     AuthType getAuthType();
+    void dataCkecking();
 
 private slots:
     void createNewConnection();
     void updateAuthMethod(int index);
+    void checkLineEdit(const QString& text);
 
 private:
     Ui::newVpnConSettingWindow* _ui;

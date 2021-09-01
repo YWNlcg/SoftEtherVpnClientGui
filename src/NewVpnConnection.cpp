@@ -48,6 +48,10 @@ void NewVpnConnection::initWindow() {
 
     connect(_ui->pushButtonOk, &QPushButton::clicked, this, &NewVpnConnection::createNewConnection);
     connect(_ui->pushButtonCancel, &QPushButton::clicked, this, &NewVpnConnection::close);
+    connect(_ui->lineEditSettingName, &QLineEdit::textEdited, this, &NewVpnConnection::checkLineEdit);
+    connect(_ui->comboBoxPort, &QComboBox::currentTextChanged, this, &NewVpnConnection::checkLineEdit);
+    connect(_ui->comboBoxHubName, &QComboBox::currentTextChanged, this, &NewVpnConnection::checkLineEdit);
+    connect(_ui->lineEditHostName, &QLineEdit::textEdited, this, &NewVpnConnection::checkLineEdit);
 }
 
 void NewVpnConnection::updateListNics() {
@@ -247,10 +251,43 @@ AuthType NewVpnConnection::getAuthType() {
     case (int)AuthType::Standart:    curAuthType = AuthType::Standart; break;
     case (int)AuthType::Radius:      curAuthType = AuthType::Radius; break;
     case (int)AuthType::Certificate: curAuthType = AuthType::Certificate; break;
-    case (int)AuthType::SecureDevice:   curAuthType = AuthType::SecureDevice; break;
+    case (int)AuthType::SecureDevice:curAuthType = AuthType::SecureDevice; break;
     default: curAuthType = AuthType::Unknown; break;
     }
     return curAuthType;
+}
+
+void NewVpnConnection::dataCkecking() {
+    // Check Setting name
+    auto settingName = _ui->lineEditSettingName->text();
+    if (settingName.isEmpty()) {
+        _ui->pushButtonOk->setDisabled(true);
+        return;
+    }
+    // Check HostName
+    auto hostName = _ui->lineEditHostName->text();
+    if (hostName.isEmpty()) {
+        _ui->pushButtonOk->setDisabled(true);
+        return;
+    }
+    // Check Port number
+    bool ok;
+    auto portNumber = _ui->comboBoxPort->currentText();
+    portNumber.toUInt(&ok);
+    if (portNumber.isEmpty() || !ok) {
+        _ui->pushButtonOk->setDisabled(true);
+        return;
+    }
+    // Check Nic
+
+    // Check User Name
+    auto userName = _ui->lineEditUserName->text();
+    if (userName.isEmpty()) {
+        _ui->pushButtonOk->setDisabled(true);
+        return;
+    }
+
+    _ui->pushButtonOk->setEnabled(true);
 }
 
 void NewVpnConnection::createNewConnection() {
@@ -346,6 +383,11 @@ void NewVpnConnection::updateAuthMethod(int index) {
     }; break;
     default: break;
     }
+}
+
+void NewVpnConnection::checkLineEdit(const QString &text) {
+    qDebug() << text;
+    dataCkecking();
 }
 
 NewVpnConnection::~NewVpnConnection() {
