@@ -52,6 +52,7 @@ void NewVpnConnection::initWindow() {
     connect(_ui->comboBoxPort, &QComboBox::currentTextChanged, this, &NewVpnConnection::checkLineEdit);
     connect(_ui->comboBoxHubName, &QComboBox::currentTextChanged, this, &NewVpnConnection::checkLineEdit);
     connect(_ui->lineEditHostName, &QLineEdit::textEdited, this, &NewVpnConnection::checkLineEdit);
+    connect(_ui->listWidgetNic, &QListWidget::currentRowChanged, this, &NewVpnConnection::checkListWidget);
 }
 
 void NewVpnConnection::updateListNics() {
@@ -279,6 +280,11 @@ void NewVpnConnection::dataCkecking() {
         return;
     }
     // Check Nic
+    auto currentNic = _ui->listWidgetNic->currentRow();
+    if (currentNic == -1) {
+        _ui->pushButtonOk->setDisabled(true);
+        return;
+    }
 
     // Check User Name
     auto userName = _ui->lineEditUserName->text();
@@ -306,6 +312,14 @@ void NewVpnConnection::createNewConnection() {
 
     // Server Certificate Verification Option
 
+    // Virtual Network Adapter to Use
+    auto item = _ui->listWidgetNic->currentItem();
+    if (item == NULL) {
+        QMessageBox::critical(this, PROGRAMM_NAME, "The virtual network adapter is not selected.\n"
+                                                   "Please select a virtual network adapter");
+        return;
+    }
+
     // User Authentication Setting
 
     acAdapter.setUserName(_ui->lineEditUserName->text());
@@ -313,7 +327,7 @@ void NewVpnConnection::createNewConnection() {
 
     switch (getAuthType()) {
     case AuthType::Anonymous: {
-        qDebug() << "AuthType::Anonymous not found";
+        qDebug() << "AuthType::Anonymous";
     }; break;
     case AuthType::Standart: {
         auto lineEditUserPassword = findChild<QLineEdit*>("lineEditUserPassword");
@@ -335,13 +349,17 @@ void NewVpnConnection::createNewConnection() {
     }; break;
     case AuthType::Certificate: {
         qDebug() << "AuthType::Certificate not found";
+        return;
     }; break;
     case AuthType::SecureDevice: {
         qDebug() << "AuthType::SmartCard not found";
+        return;
     }; break;
     default: {
         qDebug() << "AuthType not found";
-    }; break;
+        QMessageBox::critical(this, PROGRAMM_NAME, "Unknown Authentication type");
+        return;
+    };
     }
 
     acAdapter.setPassword(userPassword);
@@ -386,7 +404,10 @@ void NewVpnConnection::updateAuthMethod(int index) {
 }
 
 void NewVpnConnection::checkLineEdit(const QString &text) {
-    qDebug() << text;
+    dataCkecking();
+}
+
+void NewVpnConnection::checkListWidget(int currentRow) {
     dataCkecking();
 }
 

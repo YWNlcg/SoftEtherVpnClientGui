@@ -39,6 +39,7 @@ private slots:
     void createNewConnection();
     void updateAuthMethod(int index);
     void checkLineEdit(const QString& text);
+    void checkListWidget(int currentRow);
 
 private:
     Ui::newVpnConSettingWindow* _ui;
