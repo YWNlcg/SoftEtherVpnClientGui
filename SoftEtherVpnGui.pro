@@ -10,10 +10,16 @@ CONFIG += c++17
 
 SOURCES += \
     src/MainWindow.cpp \
-    src/main.cpp
+    src/main.cpp    \
+    src/CmdAdapter.cpp \
+    src/VpnClient.cpp
 
 HEADERS += \
-    src/MainWindow.h
+    src/MainWindow.h \
+    src/CmdAdapter.h \
+    src/CTypes.h \
+    src/Types.h \
+    src/VpnClient.h
 
 FORMS += \
     ui/MainWindow.ui \
