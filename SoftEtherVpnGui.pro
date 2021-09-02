@@ -9,12 +9,17 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/ContextMenuAccount.cpp \
+    src/ContextMenuNic.cpp \
     src/MainWindow.cpp \
     src/main.cpp    \
     src/CmdAdapter.cpp \
     src/VpnClient.cpp
 
 HEADERS += \
+    src/ContextMenuAccount.h \
+    src/ContextMenuNic.h \
+    src/IContextMenu.h \
     src/MainWindow.h \
     src/CmdAdapter.h \
     src/CTypes.h \
