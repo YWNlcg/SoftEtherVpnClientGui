@@ -281,12 +281,14 @@ void MainWindow::contextMenuConSettings(const QPoint& pos) {
     auto actionDisconnect = new QAction("Disconnect");
     auto actionNewConSettings = new QAction("New VPN Connection Settings...");
     auto actionDelete = new QAction("Delete");
+    auto actionUpdate = new QAction("Update");
 
     contextMenu->addAction(actionConnect);
     contextMenu->addAction(actionViewStatus);
     contextMenu->addAction(actionDisconnect);
     contextMenu->addAction(actionNewConSettings);
     contextMenu->addAction(actionDelete);
+    contextMenu->addAction(actionUpdate);
 
     auto selectedItem = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
     // Empty area selected
@@ -335,6 +337,10 @@ void MainWindow::contextMenuConSettings(const QPoint& pos) {
 
     connect(actionNewConSettings, &QAction::triggered, this, [&] () {
         vpnConDoubleClicked(0, 0);
+    });
+    connect(actionUpdate, &QAction::triggered, this, [&] () {
+       updateTableVirtualAdapters();
+       updateTableVpnConnection();
     });
 
     contextMenu->exec(QCursor::pos());
