@@ -6,8 +6,8 @@
 class NewAccountItem : public AbstractNewAccount {
 public:
     NewAccountItem(const QString& title);
-    QString getTitle();
-    void doubleClick();
+    QString getTitle() override;
+    void doubleClick() override;
 
 private:
     QString _title;

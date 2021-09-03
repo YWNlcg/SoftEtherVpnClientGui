@@ -6,7 +6,7 @@
 #include "VpnClient.h"
 //#include "AccountAdapter.h"
 
-using AccountItem = RPC_CLIENT_ENUM_ACCOUNT_ITEM;
+//using AccountItem = RPC_CLIENT_ENUM_ACCOUNT_ITEM;
 
 class CmdAdapter {
 public:

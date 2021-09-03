@@ -96,7 +96,7 @@ int CmdAdapter::deleteAccount(const QString &accountName) {
     return ret;
 }
 
-int CmdAdapter::getAccountList(QVector<VpnConnectionItem> &items) {
+int CmdAdapter::getAccountList(QVector<AccountData> &items) {
     RPC_CLIENT_ENUM_ACCOUNT *t = new RPC_CLIENT_ENUM_ACCOUNT;
     auto err = CcEnumAccount(_vpnClient->getRemoteClient(), t);
     for (uint i = 0 ; i < t->NumItem; ++i) {

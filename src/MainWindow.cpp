@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui->setupUi(this);
     initPolicy();
     initAccItems();
+    initAccTable();
+    initNicTable();
 }
 
 MainWindow::~MainWindow() {
@@ -42,6 +44,42 @@ void MainWindow::initPolicy() {
 void MainWindow::initAccItems() {
     _accItems.push_back(new NewAccountItem("Add VPN Connection"));
     updateAccItems();
+}
+
+void MainWindow::initAccTable() {
+    _ui->TableWidgetVpnConnectionSettings->setSelectionBehavior(QAbstractItemView::SelectRows);
+    _ui->TableWidgetVpnConnectionSettings->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    updateAccTable();
+}
+
+void MainWindow::initNicTable() {
+    _ui->TableWidgetNicSettings->setSelectionBehavior(QAbstractItemView::SelectRows);
+    _ui->TableWidgetNicSettings->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    updateNicTable();
+}
+
+void MainWindow::updateAccTable() {
+    auto& accTable =  _ui->TableWidgetVpnConnectionSettings;
+    while (accTable->rowCount()) {
+        accTable->removeRow(0);
+    }
+
+    updateAccItems();
+    for (int i = 0; i < _accItems.size(); ++i) {
+        accTable->insertRow(i);
+        accTable->setItem(i, 0, new QTableWidgetItem(_accItems[i]->getTitle()));
+        accTable->setItem(i, 1, new QTableWidgetItem(_accItems[i]->getStatusStr()));
+        accTable->setItem(i, 2, new QTableWidgetItem(_accItems[i]->getServerHostName()));
+        accTable->setItem(i, 3, new QTableWidgetItem(_accItems[i]->getVirtualHub()));
+        accTable->setItem(i, 4, new QTableWidgetItem(_accItems[i]->getNicName()));
+    }
+
+    _ui->TableWidgetVpnConnectionSettings->resizeColumnsToContents();
+}
+
+void MainWindow::updateNicTable() {
+
+    _ui->TableWidgetNicSettings->resizeColumnsToContents();
 }
 
 void MainWindow::updateAccItems() {

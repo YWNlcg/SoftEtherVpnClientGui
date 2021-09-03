@@ -4,6 +4,10 @@ Status AbstractNewAccount::getStatus() {
     return Status::Null;
 }
 
+QString AbstractNewAccount::getStatusStr() {
+    return QString();
+}
+
 QString AbstractNewAccount::getServerHostName() {
     return QString();
 }

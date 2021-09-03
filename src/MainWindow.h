@@ -30,6 +30,10 @@ public:
 private:
     void initPolicy();
     void initAccItems();
+    void initAccTable();
+    void initNicTable();
+    void updateAccTable();
+    void updateNicTable();
     void updateAccItems();
     AccItems getAccountItems();
     void freeAccItems();

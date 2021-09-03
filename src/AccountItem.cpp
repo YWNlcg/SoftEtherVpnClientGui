@@ -23,6 +23,15 @@ Status AccountItem::getStatus() {
     return status;
 }
 
+QString AccountItem::getStatusStr() {
+    switch (getStatus()) {
+    case Status::Null: return "";
+    case Status::Offline: return "Offline";
+    case Status::Connected: return "Connected";
+    case Status::Connecting: return "Connecting";
+    }
+}
+
 QString AccountItem::getServerHostName() {
     return _data._vpnServerName;
 }

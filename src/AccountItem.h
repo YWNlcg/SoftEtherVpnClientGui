@@ -9,6 +9,7 @@ public:
     AccountItem(const AccountData& data);
     QString getTitle() override;
     Status getStatus() override;
+    QString getStatusStr() override;
     QString getServerHostName() override;
     QString getVirtualHub() override;
     QString getNicName() override;
@@ -16,6 +17,7 @@ public:
 
 private:
     AccountData _data;
+
 };
 
 #endif // ACCOUNTITEM_H

@@ -6,7 +6,7 @@
 class IContextMenu {
 public:
     virtual ~IContextMenu() {};
-    virtual void exec(const QPoint& pos) = 0;
+    virtual void exec(const QPoint& pos, const QString& rowName = "") = 0;
 };
 
 #endif // ICONTEXTMENU_H
