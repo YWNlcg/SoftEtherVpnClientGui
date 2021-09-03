@@ -27,6 +27,7 @@ void log_handler(QtMsgType type, const char *msg);
 
 #define PROGRAMM_NAME "VpnClient"
 using uint = unsigned int;
+enum class Status {Null, Offline, Connecting, Connected};
 
 struct Nic {
     QString _deviceName;
@@ -35,7 +36,7 @@ struct Nic {
     QString _version;
 };
 
-struct VpnConnectionItem {
+struct AccountData {
     QString _vpnConName;
     bool    _active;
     bool    _connected;

@@ -25,7 +25,7 @@ public:
 //    int createAccount(AccountAdapter& acAdapter);
 //    int setAccount(AccountAdapter& acAdapter);
     int deleteAccount(const QString& accountName);
-    int getAccountList(QVector<VpnConnectionItem>& account);
+    int getAccountList(QVector<AccountData>& account);
     int getConnectionStatus(const QString& conName);
     int connect(const QString& name);
     int disconnect(const QString& name);
