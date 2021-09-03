@@ -1,6 +1,6 @@
 #include "NewAccountItem.h"
 
-NewAccountItem::NewAccountItem(QWidget *parent, const QString &title)
+NewAccountItem::NewAccountItem(const QString &title)
     : _title(title) {
 
 }

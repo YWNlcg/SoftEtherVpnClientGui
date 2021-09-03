@@ -5,7 +5,7 @@
 
 class NewAccountItem : public AbstractNewAccount {
 public:
-    NewAccountItem(QWidget* parent, const QString& title);
+    NewAccountItem(const QString& title);
     QString getTitle();
     void doubleClick();
 

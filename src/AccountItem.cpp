@@ -1,6 +1,6 @@
 #include "AccountItem.h"
 
-AccountItem::AccountItem(QWidget *parent, const AccountData &data)
+AccountItem::AccountItem(const AccountData &data)
     : _data(data) {
 
 }

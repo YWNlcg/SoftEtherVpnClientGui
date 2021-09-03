@@ -1,9 +1,9 @@
 #ifndef ABSTRACTNEWACCOUNT_H
 #define ABSTRACTNEWACCOUNT_H
 
-#include "ITableAccountItem.h"
+#include "IAccountItem.h"
 
-class AbstractNewAccount : public ITableAccountItem {
+class AbstractNewAccount : public IAccountItem {
 public:
     virtual Status getStatus();
     virtual QString getServerHostName();

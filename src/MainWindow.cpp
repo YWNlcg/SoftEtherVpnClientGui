@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _cMenuVpnAcc(NULL), _cMenuNics(NULL) {
     _ui->setupUi(this);
     initPolicy();
+    initAccItems();
 }
 
 MainWindow::~MainWindow() {
@@ -16,6 +17,7 @@ MainWindow::~MainWindow() {
     if (_cMenuVpnAcc != NULL) {
         delete _cMenuVpnAcc;
     }
+    freeAccItems();
 }
 
 void MainWindow::setCMenuVpnAcc(IContextMenu *cMenu) {
@@ -37,6 +39,42 @@ void MainWindow::initPolicy() {
     _ui->TableWidgetNicSettings->setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
+void MainWindow::initAccItems() {
+    _accItems.push_back(new NewAccountItem("Add VPN Connection"));
+    updateAccItems();
+}
+
+void MainWindow::updateAccItems() {
+    while (_accItems.size() > 1) {
+        delete _accItems.back();
+        _accItems.pop_back();
+    }
+
+    auto items = getAccountItems();
+    for (auto item: items) {
+        _accItems.push_back(item);
+    }
+}
+
+AccItems MainWindow::getAccountItems() {
+    AccItems items;
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    QVector<AccountData> accounts;
+    cmdAdapter.getAccountList(accounts);
+
+    for (auto& ac: accounts) {
+        items.push_back(new AccountItem(ac));
+    }
+
+    return items;
+}
+
+void MainWindow::freeAccItems() {
+    for (auto ac: _accItems) {
+        delete ac;
+    }
+}
+
 void MainWindow::execCMenuVpnAcc(const QPoint&) {
     qDebug() << "execCMenuVpnAcc";
     if (_cMenuVpnAcc != NULL) {
@@ -44,10 +82,15 @@ void MainWindow::execCMenuVpnAcc(const QPoint&) {
     }
 }
 
-void MainWindow::execCMenuNics(const QPoint&) {
+void MainWindow::execCMenuNics(const QPoint& pos) {
     qDebug() << "execCMenuNics";
+    QString nicName;
+    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
+    if (selectedItem != NULL) {
+        nicName = _ui->TableWidgetNicSettings->item(selectedItem->row(), 0)->text();
+    }
+
     if (_cMenuNics != NULL) {
-        _cMenuNics->exec(QCursor::pos());
+        _cMenuNics->exec(QCursor::pos(), nicName);
     }
 }
-

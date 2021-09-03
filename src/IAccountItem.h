@@ -1,13 +1,13 @@
-#ifndef ITABLEACCOUNTITEM_H
-#define ITABLEACCOUNTITEM_H
+#ifndef IACCOUNTITEM_H
+#define IACCOUNTITEM_H
 
 #include <QString>
 
 #include "Types.h"
 
-class ITableAccountItem {
+class IAccountItem {
 public:
-    virtual ~ITableAccountItem() {};
+    virtual ~IAccountItem() {};
     virtual QString getTitle() = 0;
     virtual Status getStatus() = 0;
     virtual QString getServerHostName() = 0;
@@ -16,4 +16,4 @@ public:
     virtual void doubleClick() = 0;
 };
 
-#endif // ITABLEACCOUNTITEM_H
+#endif // IACCOUNTITEM_H

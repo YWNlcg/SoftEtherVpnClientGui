@@ -1,18 +1,18 @@
 #ifndef ACCOUNTITEM_H
 #define ACCOUNTITEM_H
 
-#include "ITableAccountItem.h"
+#include "IAccountItem.h"
 #include "Types.h"
 
-class AccountItem : public ITableAccountItem {
+class AccountItem : public IAccountItem {
 public:
-    AccountItem(QWidget* parent, const AccountData& data);
-    QString getTitle();
-    Status getStatus();
-    QString getServerHostName();
-    QString getVirtualHub();
-    QString getNicName();
-    void doubleClick();
+    AccountItem(const AccountData& data);
+    QString getTitle() override;
+    Status getStatus() override;
+    QString getServerHostName() override;
+    QString getVirtualHub() override;
+    QString getNicName() override;
+    void doubleClick() override;
 
 private:
     AccountData _data;

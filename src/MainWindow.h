@@ -5,6 +5,14 @@
 #include <QContextMenuEvent>
 #include "Types.h"
 #include "IContextMenu.h"
+#include "IAccountItem.h"
+#include "AccountItem.h"
+#include "NewAccountItem.h"
+#include "CmdAdapter.h"
+
+
+using AccItems = QVector<IAccountItem*>;
+CmdAdapter& GetCmdAdapterInstance();
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +29,10 @@ public:
 
 private:
     void initPolicy();
+    void initAccItems();
+    void updateAccItems();
+    AccItems getAccountItems();
+    void freeAccItems();
 
 private slots:
     void execCMenuVpnAcc(const QPoint&);
@@ -28,6 +40,7 @@ private slots:
 
 private:
     Ui::MainWindow* _ui;
+    AccItems _accItems;
     IContextMenu* _cMenuVpnAcc; // Context menu for VPN Accounts
     IContextMenu* _cMenuNics;   // Context menu for Network Interface Card
 };
