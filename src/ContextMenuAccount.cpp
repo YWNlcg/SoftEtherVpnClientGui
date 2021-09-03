@@ -12,7 +12,7 @@ ContextMenuAccount::~ContextMenuAccount() {
     delete _menu;
 }
 
-void ContextMenuAccount::exec(const QPoint &pos) {
-    qDebug() << "ContextMenuAccount::exec";
+void ContextMenuAccount::exec(const QPoint &pos, const QString& rowName) {
+    qDebug() << "ContextMenuAccount::exec(" << pos << ", " << rowName << ")";
     _menu->exec(pos);
 }

@@ -14,7 +14,7 @@ ContextMenuNic::~ContextMenuNic() {
     delete _menu;
 }
 
-void ContextMenuNic::exec(const QPoint &pos) {
-    qDebug() << "ContextMenuNic::exec";
+void ContextMenuNic::exec(const QPoint &pos, const QString& rowName) {
+    qDebug() << "ContextMenuNic::exec(" << pos << ", " << rowName << ")";
     _menu->exec(pos);
 }

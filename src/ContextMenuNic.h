@@ -8,7 +8,7 @@ class ContextMenuNic : public IContextMenu {
 public:
     ContextMenuNic(QWidget* parent);
     ~ContextMenuNic() override;
-    void exec(const QPoint &pos) override;
+    void exec(const QPoint &pos, const QString& rowName = "") override;
 
 private:
     QMenu* _menu;
