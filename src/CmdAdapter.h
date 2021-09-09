@@ -8,6 +8,8 @@
 
 //using AccountItem = RPC_CLIENT_ENUM_ACCOUNT_ITEM;
 
+using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
+
 class CmdAdapter {
 public:
     CmdAdapter();

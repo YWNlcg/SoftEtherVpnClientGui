@@ -114,8 +114,18 @@ int CmdAdapter::getAccountList(QVector<AccountData> &items) {
     return err;
 }
 
-int CmdAdapter::getConnectionStatus(const QString &conName) {
-
+int CmdAdapter::getConnectionStatus(const QString &conName, RpcConStatus* cs) {
+    auto* t = new RpcConStatus;
+    t->ServerX = new X;
+    t->ClientX = new X;
+    wcsncpy(t->AccountName, conName.toStdWString().c_str(), conName.size());
+    auto ret = CcGetAccountStatus(_vpnClient->getRemoteClient(), t);
+    delete t->ServerX;
+    delete t->ClientX;
+    t->ServerX = NULL;
+    t->ClientX = NULL;
+    memcpy(cs, t, sizeof(RpcConStatus));
+    return ret;
 }
 
 int CmdAdapter::connect(const QString &name) {
