@@ -5,11 +5,11 @@ AccountItem::AccountItem(const AccountData &data)
 
 }
 
-QString AccountItem::getTitle() {
+QString AccountItem::getTitle() const {
     return _data._vpnConName;
 }
 
-Status AccountItem::getStatus() {
+Status AccountItem::getStatus() const {
     Status status;
     if (_data._connected) {
         status = Status::Connected;
@@ -23,7 +23,7 @@ Status AccountItem::getStatus() {
     return status;
 }
 
-QString AccountItem::getStatusStr() {
+QString AccountItem::getStatusStr() const {
     switch (getStatus()) {
     case Status::Null: return "";
     case Status::Offline: return "Offline";
@@ -32,15 +32,15 @@ QString AccountItem::getStatusStr() {
     }
 }
 
-QString AccountItem::getServerHostName() {
+QString AccountItem::getServerHostName() const {
     return _data._vpnServerName;
 }
 
-QString AccountItem::getVirtualHub() {
+QString AccountItem::getVirtualHub() const {
     return _data._virtualHub;
 }
 
-QString AccountItem::getNicName() {
+QString AccountItem::getNicName() const {
     return _data._nicName;
 }
 

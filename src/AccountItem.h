@@ -2,17 +2,18 @@
 #define ACCOUNTITEM_H
 
 #include "IAccountItem.h"
-#include "Types.h"
+//#include "Types.h"
 
 class AccountItem : public IAccountItem {
 public:
     AccountItem(const AccountData& data);
-    QString getTitle() override;
-    Status getStatus() override;
-    QString getStatusStr() override;
-    QString getServerHostName() override;
-    QString getVirtualHub() override;
-    QString getNicName() override;
+    // IAccountItem interface
+    QString getTitle() const override;
+    Status getStatus() const override;
+    QString getStatusStr() const override;
+    QString getServerHostName() const override;
+    QString getVirtualHub() const override;
+    QString getNicName() const override;
     void doubleClick() override;
 
 private:

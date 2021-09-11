@@ -1,21 +1,21 @@
 #include "AbstractNewAccount.h"
 
-Status AbstractNewAccount::getStatus() {
+Status AbstractNewAccount::getStatus() const {
     return Status::Null;
 }
 
-QString AbstractNewAccount::getStatusStr() {
+QString AbstractNewAccount::getStatusStr() const {
     return QString();
 }
 
-QString AbstractNewAccount::getServerHostName() {
+QString AbstractNewAccount::getServerHostName() const {
     return QString();
 }
 
-QString AbstractNewAccount::getVirtualHub() {
+QString AbstractNewAccount::getVirtualHub() const {
     return QString();
 }
 
-QString AbstractNewAccount::getNicName() {
+QString AbstractNewAccount::getNicName() const {
     return QString();
 }
