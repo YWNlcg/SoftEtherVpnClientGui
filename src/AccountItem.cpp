@@ -44,6 +44,7 @@ QString AccountItem::getNicName() const {
     return _data._nicName;
 }
 
-void AccountItem::doubleClick(QObject* parent) {
-
+void AccountItem::doubleClick(QWidget* parent) {
+//    NewVpnConnectionDialog dialog(parent);
+//    dialo
 }

@@ -9,7 +9,7 @@ QString NewAccountItem::getTitle() const {
     return _title;
 }
 
-void NewAccountItem::doubleClick(QObject* parent) {
+void NewAccountItem::doubleClick(QWidget* parent) {
     qDebug() << parent;
 }
 

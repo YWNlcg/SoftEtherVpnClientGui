@@ -2,6 +2,7 @@
 #define ACCOUNTITEM_H
 
 #include "IAccountItem.h"
+#include "NewVpnConnectionDialog.h"
 //#include "Types.h"
 
 class AccountItem : public IAccountItem {
@@ -14,7 +15,7 @@ public:
     QString getServerHostName() const override;
     QString getVirtualHub() const override;
     QString getNicName() const override;
-    void doubleClick(QObject* parent) override;
+    void doubleClick(QWidget* parent) override;
 
 private:
     AccountData _data;
