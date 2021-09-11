@@ -147,36 +147,43 @@ void MainWindow::freeAccItems() {
     }
 }
 
-void MainWindow::execCMenuVpnAcc(const QPoint& pos) {
-    qDebug() << "execCMenuVpnAcc";
-    QString accName;
+IAccountItem* MainWindow::getAccountItem(const QPoint &pos) {
     auto selectedItem = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
-    if (selectedItem != NULL) {
-        accName = _ui->TableWidgetVpnConnectionSettings->item(selectedItem->row(), 0)->text();
-        qDebug() << "accName = " << accName;
+    if (selectedItem == NULL) {
+        return NULL;
     }
-    else {
-        _cMenuVpnAcc->exec(QCursor::pos(), NULL);
-        return;
-    }
-
+    auto accName = _ui->TableWidgetVpnConnectionSettings->item(selectedItem->row(), 0)->text();
     for (auto& item: _accItems) {
         if (item->getTitle() == accName) {
-            _cMenuVpnAcc->exec(QCursor::pos(), item);
-            break;
+            return item;
         }
     }
+    return NULL;
+}
+
+INicItem* MainWindow::getNicItem(const QPoint &pos) {
+    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
+    if (selectedItem == NULL) {
+        return NULL;
+    }
+    auto accName = _ui->TableWidgetNicSettings->item(selectedItem->row(), 0)->text();
+    for (auto& item: _nicItems) {
+        if (item->getTitle() == accName) {
+            return item;
+        }
+    }
+    return NULL;
+}
+
+void MainWindow::execCMenuVpnAcc(const QPoint& pos) {
+    qDebug() << "execCMenuVpnAcc";
+    auto accountItem = getAccountItem(pos);
+    _cMenuVpnAcc->exec(QCursor::pos(), accountItem);
 }
 
 void MainWindow::execCMenuNics(const QPoint& pos) {
     qDebug() << "execCMenuNics";
     QString nicName;
-    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
-    if (selectedItem != NULL) {
-        nicName = _ui->TableWidgetNicSettings->item(selectedItem->row(), 0)->text();
-    }
-
-    if (_cMenuNics != NULL) {
-        _cMenuNics->exec(QCursor::pos(), NULL);
-    }
+    auto nicItem = getNicItem(pos);
+    _cMenuNics->exec(QCursor::pos(), nicItem);
 }
