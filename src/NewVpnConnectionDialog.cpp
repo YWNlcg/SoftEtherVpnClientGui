@@ -11,6 +11,10 @@ NewVpnConnectionDialog::~NewVpnConnectionDialog() {
     delete _ui;
 }
 
+void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *ac) {
+
+}
+
 void NewVpnConnectionDialog::init() {
     auto& cmdAdapter = GetCmdAdapterInstance();
 
@@ -20,7 +24,7 @@ void NewVpnConnectionDialog::init() {
     for (int i = 2; !checkSettingName(defName) && i != INT_MAX; ++i) {
         defName = pattern.arg(i);
     }
-    _ui->labelSettingName->setText(defName);
+    _ui->lineEditSettingName->setText(defName);
 
     // Default ports
     _ui->comboBoxPortNumber->addItem("8888");
