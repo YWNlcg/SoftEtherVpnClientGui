@@ -2,9 +2,9 @@
 #include "ui_NewVpnConnectionDialog.h"
 
 NewVpnConnectionDialog::NewVpnConnectionDialog(QWidget *parent) :
-    QDialog(parent),
-    _ui(new Ui::NewVpnConnectionDialog) {
+    QDialog(parent), _ui(new Ui::NewVpnConnectionDialog) {
     _ui->setupUi(this);
+    init();
 }
 
 NewVpnConnectionDialog::~NewVpnConnectionDialog() {
@@ -12,6 +12,8 @@ NewVpnConnectionDialog::~NewVpnConnectionDialog() {
 }
 
 void NewVpnConnectionDialog::init() {
+    auto& cmdAdapter = GetCmdAdapterInstance();
+
     // Default Setting Name
     QString defName = "New Vpn Connection";
     QString pattern = defName + " (%1)";
@@ -25,6 +27,13 @@ void NewVpnConnectionDialog::init() {
     _ui->comboBoxPortNumber->addItem("443");
     _ui->comboBoxPortNumber->addItem("992");
     _ui->comboBoxPortNumber->addItem("5555");
+
+    // Virtual Network Adapters
+    QVector<Nic> nicList;
+    cmdAdapter.getListNic(nicList);
+    for (auto nic: nicList) {
+        _ui->listWidgetNics->addItem(nic._deviceName);
+    }
 
     // Default Auth Type
     _ui->comboBoxAuthType->addItem("Anonymous Authentication");
