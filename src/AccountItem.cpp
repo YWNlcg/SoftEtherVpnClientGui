@@ -44,6 +44,6 @@ QString AccountItem::getNicName() const {
     return _data._nicName;
 }
 
-void AccountItem::doubleClick() {
+void AccountItem::doubleClick(QObject* parent) {
 
 }

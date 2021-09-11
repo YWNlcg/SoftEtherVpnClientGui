@@ -7,7 +7,7 @@ class NewAccountItem : public AbstractNewAccount {
 public:
     NewAccountItem(const QString& title);
     QString getTitle() const override;
-    void doubleClick() override;
+    void doubleClick(QObject* parent) override;
 private:
     QString _title;
 };

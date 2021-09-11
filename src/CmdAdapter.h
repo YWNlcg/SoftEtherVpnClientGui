@@ -26,7 +26,7 @@ public:
 //    int setAccount(AccountAdapter& acAdapter);
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<AccountData>& account);
-    int getAccount()
+    int getAccount(const QString& name, RpcGetAccount* account);
     int getConnectionStatus(const QString& conName, RpcConStatus* cs);
     int connect(const QString& name);
     int disconnect(const QString& name);

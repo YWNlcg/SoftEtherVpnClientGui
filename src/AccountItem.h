@@ -14,7 +14,7 @@ public:
     QString getServerHostName() const override;
     QString getVirtualHub() const override;
     QString getNicName() const override;
-    void doubleClick() override;
+    void doubleClick(QObject* parent) override;
 
 private:
     AccountData _data;

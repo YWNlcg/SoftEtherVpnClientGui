@@ -15,7 +15,7 @@ public:
     virtual QString getServerHostName() const = 0;
     virtual QString getVirtualHub() const = 0;
     virtual QString getNicName() const = 0;
-    virtual void doubleClick() = 0;
+    virtual void doubleClick(QObject* parent = NULL) = 0;
 };
 
 class IAccountContextMenu : public QObject {
