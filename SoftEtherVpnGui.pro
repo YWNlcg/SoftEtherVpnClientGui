@@ -17,7 +17,8 @@ SOURCES += \
     src/NewAccountItem.cpp \
     src/main.cpp    \
     src/CmdAdapter.cpp \
-    src/VpnClient.cpp
+    src/VpnClient.cpp \
+    src/nicitem.cpp
 
 HEADERS += \
     src/AbstractNewAccount.h \
@@ -32,7 +33,8 @@ HEADERS += \
     src/CTypes.h \
     src/NewAccountItem.h \
     src/Types.h \
-    src/VpnClient.h
+    src/VpnClient.h \
+    src/nicitem.h
 
 FORMS += \
     ui/MainWindow.ui \

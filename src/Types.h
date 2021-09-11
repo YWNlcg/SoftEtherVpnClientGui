@@ -25,7 +25,8 @@
 
 using namespace std;
 using uint = unsigned int;
-enum class Status {Null, Offline, Connecting, Connected};
+enum class AccStatus {Null, Offline, Connecting, Connected};
+enum class NicStatus {Enabled, Disabled};
 
 struct Nic {
     QString _deviceName;
