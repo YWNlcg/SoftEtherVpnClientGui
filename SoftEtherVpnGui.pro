@@ -15,6 +15,7 @@ SOURCES += \
     src/ContextMenuNic.cpp \
     src/MainWindow.cpp \
     src/NewAccountItem.cpp \
+    src/NewVpnConnectionDialog.cpp \
     src/NicItem.cpp \
     src/main.cpp    \
     src/CmdAdapter.cpp \
@@ -32,12 +33,15 @@ HEADERS += \
     src/CmdAdapter.h \
     src/CTypes.h \
     src/NewAccountItem.h \
+    src/NewVpnConnectionDialog.h \
     src/NicItem.h \
     src/Types.h \
     src/VpnClient.h
 
 FORMS += \
     ui/MainWindow.ui \
+    ui/NewVpnConnectionDialog.ui \
+    ui/NewVpnConnectionWindow.ui
 
 INCLUDEPATH += \
     SoftEtherVPN/src/

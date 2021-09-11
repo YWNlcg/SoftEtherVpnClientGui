@@ -5,7 +5,6 @@
 #include "CmdAdapter.h"
 #include "ContextMenuAccount.h"
 #include "ContextMenuNic.h"
-
 #include "CTypes.h"
 
 CmdAdapter& GetCmdAdapterInstance() {
