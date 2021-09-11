@@ -3,10 +3,28 @@
 
 NewVpnConnectionDialog::NewVpnConnectionDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::NewVpnConnectionDialog) {
-    ui->setupUi(this);
+    _ui(new Ui::NewVpnConnectionDialog) {
+    _ui->setupUi(this);
 }
 
 NewVpnConnectionDialog::~NewVpnConnectionDialog() {
-    delete ui;
+    delete _ui;
+}
+
+void NewVpnConnectionDialog::init() {
+
+}
+
+bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
+    auto& cmdAdapter = GetCmdAdapterInstance();
+
+    QVector<AccountData> accounts;
+    cmdAdapter.getAccountList(accounts);
+
+    for (auto acc: accounts) {
+        if (acc._vpnConName == name) {
+            return false;
+        }
+    }
+    return true;
 }

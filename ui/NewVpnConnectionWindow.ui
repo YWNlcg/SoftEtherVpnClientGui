@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>newVpnConSettingWindow</class>
- <widget class="QMainWindow" name="newVpnConSettingWindow">
+ <widget class="QDialog" name="newVpnConSettingWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,6 +14,14 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>825</width>
+     <height>515</height>
+    </rect>
+   </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_1" stretch="2,4,4,3">
@@ -517,7 +525,16 @@ connecting to the VPN Server:</string>
    </widget>
    <addaction name="menuNew_VPN_Connection_Setting_Properties"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>3</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

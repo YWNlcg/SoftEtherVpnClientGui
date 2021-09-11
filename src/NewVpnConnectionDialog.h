@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "Extern.h"
+
 namespace Ui {
 class NewVpnConnectionDialog;
 }
@@ -16,7 +18,11 @@ public:
     ~NewVpnConnectionDialog();
 
 private:
-    Ui::NewVpnConnectionDialog *ui;
+    void init();
+    bool checkSettingName(const QString& name);
+
+private:
+    Ui::NewVpnConnectionDialog *_ui;
 };
 
 #endif // NEWVPNCONNECTIONDIALOG_H
