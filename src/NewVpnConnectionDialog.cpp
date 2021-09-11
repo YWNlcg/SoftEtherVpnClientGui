@@ -45,6 +45,10 @@ void NewVpnConnectionDialog::init() {
     _ui->comboBoxAuthType->addItem("RADIUS or NT Domain Authentication");
     _ui->comboBoxAuthType->addItem("Client Certificate Authentication");
     _ui->comboBoxAuthType->addItem("Smart Card Authentication");
+
+    // Button box - "Cancel", "Ok"
+    connect(_ui->buttonBox, &QDialogButtonBox::clicked,
+            this, &NewVpnConnectionDialog::onButtonBoxClicked);
 }
 
 bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
@@ -59,4 +63,20 @@ bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
         }
     }
     return true;
+}
+
+void NewVpnConnectionDialog::createAccount() {
+
+}
+
+void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
+    if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
+        createAccount();
+    }
+    else if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Cancel) {
+        close();
+    }
+    else {
+        qDebug() << "NewVpnConnectionDialog::slotButtonBox - unknow button is click";
+    }
 }

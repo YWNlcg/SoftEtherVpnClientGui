@@ -20,6 +20,10 @@ public:
 private:
     void init();
     bool checkSettingName(const QString& name);
+    void createAccount();
+
+private slots:
+    void onButtonBoxClicked(QAbstractButton *button);
 
 private:
     Ui::NewVpnConnectionDialog *_ui;
