@@ -1,14 +1,15 @@
 #ifndef CONTEXTMENUNIC_H
 #define CONTEXTMENUNIC_H
 
-#include "IContextMenu.h"
 #include <QMenu>
 
-class ContextMenuNic : public IContextMenu {
+#include "INicItem.h"
+
+class ContextMenuNic : public INicContextMenu {
 public:
     ContextMenuNic(QWidget* parent);
     ~ContextMenuNic() override;
-    void exec(const QPoint &pos, const QString& rowName = "") override;
+    void exec(const QPoint &pos, const INicItem* item) override;
 
 private:
     QMenu* _menu;
