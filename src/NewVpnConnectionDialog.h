@@ -2,6 +2,7 @@
 #define NEWVPNCONNECTIONDIALOG_H
 
 #include <QDialog>
+#include <QListWidget>
 
 #include "Extern.h"
 
@@ -21,6 +22,7 @@ private:
     void init();
     bool checkSettingName(const QString& name);
     void createAccount();
+    void dataValidation();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);

@@ -49,6 +49,23 @@ void NewVpnConnectionDialog::init() {
     // Button box - "Cancel", "Ok"
     connect(_ui->buttonBox, &QDialogButtonBox::clicked,
             this, &NewVpnConnectionDialog::onButtonBoxClicked);
+
+    // For Data Validation
+    connect(_ui->lineEditSettingName, &QLineEdit::textEdited,
+            this, [&] (const QString &) { dataValidation(); });
+    connect(_ui->lineEditHostName, &QLineEdit::textEdited,
+            this, [&] (const QString &) { dataValidation(); });
+    connect(_ui->comboBoxPortNumber, &QComboBox::currentTextChanged,
+            this, [&] (const QString &) { dataValidation(); });
+    connect(_ui->comboBoxHubName, &QComboBox::currentTextChanged,
+            this, [&] (const QString &) { dataValidation(); });
+    connect(_ui->lineEditUserName, &QLineEdit::textEdited,
+            this, [&] (const QString &) { dataValidation(); });
+    connect(_ui->listWidgetNics, &QListWidget::itemClicked,
+            this, [&] (QListWidgetItem*) { dataValidation(); });
+
+    // Disable button - "Ok"
+    dataValidation();
 }
 
 bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
@@ -67,6 +84,59 @@ bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
 
 void NewVpnConnectionDialog::createAccount() {
 
+}
+
+void NewVpnConnectionDialog::dataValidation() {
+    QAbstractButton* buttonOk = NULL;
+    auto buttons = _ui->buttonBox->buttons();
+    for (auto& button: buttons) {
+        if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
+            buttonOk = button;
+        }
+    }
+    if (buttonOk == NULL) {
+        qDebug() << "NewVpnConnectionDialog::dataValidation - Button \"OK\" not found";
+        return;
+    }
+
+    // Check HostName
+    auto hostName = _ui->lineEditHostName->text();
+    if (hostName.isEmpty()) {
+        buttonOk->setDisabled(true);
+        return;
+    }
+
+    // Check Port Number
+    auto portStr = _ui->comboBoxPortNumber->currentText();
+    bool ok;
+    int port = portStr.toUInt(&ok);
+    if (!(ok && port > 0 && port <= UINT16_MAX)) {
+        buttonOk->setDisabled(true);
+        return;
+    }
+
+    // Check Virtual NubName
+    auto hubName = _ui->comboBoxHubName->currentText();
+    if (hubName.isEmpty()) {
+        buttonOk->setDisabled(true);
+        return;
+    }
+
+    // Check Virtual Adapter
+    auto currentNic = _ui->listWidgetNics->currentRow();
+    if (currentNic == -1) {
+        buttonOk->setDisabled(true);
+        return;
+    }
+
+    // Check User Name
+    auto userName = _ui->lineEditUserName->text();
+    if (userName.isEmpty()) {
+        buttonOk->setDisabled(true);
+        return;
+    }
+
+    buttonOk->setEnabled(true);
 }
 
 void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {

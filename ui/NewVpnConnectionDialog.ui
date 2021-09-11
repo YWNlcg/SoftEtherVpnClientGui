@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>814</width>
+    <width>868</width>
     <height>613</height>
    </rect>
   </property>
@@ -73,7 +73,11 @@
          </widget>
         </item>
         <item row="3" column="2" colspan="2">
-         <widget class="QComboBox" name="comboBoxHubName"/>
+         <widget class="QComboBox" name="comboBoxHubName">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0" colspan="2">
          <widget class="QLabel" name="labelHostName">
