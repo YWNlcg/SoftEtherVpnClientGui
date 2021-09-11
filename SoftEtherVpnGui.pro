@@ -15,10 +15,10 @@ SOURCES += \
     src/ContextMenuNic.cpp \
     src/MainWindow.cpp \
     src/NewAccountItem.cpp \
+    src/NicItem.cpp \
     src/main.cpp    \
     src/CmdAdapter.cpp \
-    src/VpnClient.cpp \
-    src/nicitem.cpp
+    src/VpnClient.cpp
 
 HEADERS += \
     src/AbstractNewAccount.h \
@@ -32,9 +32,9 @@ HEADERS += \
     src/CmdAdapter.h \
     src/CTypes.h \
     src/NewAccountItem.h \
+    src/NicItem.h \
     src/Types.h \
-    src/VpnClient.h \
-    src/nicitem.h
+    src/VpnClient.h
 
 FORMS += \
     ui/MainWindow.ui \
