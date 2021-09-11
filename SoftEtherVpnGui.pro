@@ -24,8 +24,9 @@ HEADERS += \
     src/AccountItem.h \
     src/ContextMenuAccount.h \
     src/ContextMenuNic.h \
+    src/Extern.h \
     src/IAccountItem.h \
-    src/IContextMenu.h \
+    src/INicItem.h \
     src/MainWindow.h \
     src/CmdAdapter.h \
     src/CTypes.h \

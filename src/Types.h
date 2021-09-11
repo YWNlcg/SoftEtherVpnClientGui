@@ -21,11 +21,9 @@
 #include <iostream>
 #include <cstring>
 
-using namespace std;
-
-void log_handler(QtMsgType type, const char *msg);
-
 #define PROGRAMM_NAME "VpnClient"
+
+using namespace std;
 using uint = unsigned int;
 enum class Status {Null, Offline, Connecting, Connected};
 
