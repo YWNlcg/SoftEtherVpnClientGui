@@ -6,6 +6,7 @@
 #include "VpnClient.h"
 
 using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
+using RpcGetAccount = RPC_CLIENT_GET_ACCOUNT;
 
 class CmdAdapter {
 public:
@@ -25,6 +26,7 @@ public:
 //    int setAccount(AccountAdapter& acAdapter);
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<AccountData>& account);
+    int getAccount()
     int getConnectionStatus(const QString& conName, RpcConStatus* cs);
     int connect(const QString& name);
     int disconnect(const QString& name);
