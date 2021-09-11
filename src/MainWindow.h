@@ -43,11 +43,13 @@ private:
     void freeAccItems();
     IAccountItem* getAccountItem(const QPoint& pos);
     INicItem* getNicItem(const QPoint& pos);
+    IAccountItem* getAccountItem(int row, int column);
+    INicItem* getNicItem(int row, int column);
 
 private slots:
     void execCMenuVpnAcc(const QPoint&);
     void execCMenuNics(const QPoint&);
-    void execCMenuVpnAcc(int row, int column);
+    void doubleClickVpnAcc(int row, int column);
 
 private:
     Ui::MainWindow* _ui;

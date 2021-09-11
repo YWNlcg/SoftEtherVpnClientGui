@@ -53,7 +53,7 @@ void MainWindow::initAccTable() {
     updateAccTable();
     auto& tableVpnCon = _ui->TableWidgetVpnConnectionSettings;
     connect(tableVpnCon, &QTableWidget::cellDoubleClicked,
-            this, )
+            this, &MainWindow::doubleClickVpnAcc);
 }
 
 void MainWindow::initNicTable() {
@@ -201,6 +201,10 @@ void MainWindow::execCMenuNics(const QPoint& pos) {
     _cMenuNics->exec(QCursor::pos(), nicItem);
 }
 
-void MainWindow::execCMenuVpnAcc(int row, int column) {
-
+void MainWindow::doubleClickVpnAcc(int row, int column) {
+    auto accountItem = getAccountItem(row, column);
+    if (accountItem != NULL) {
+        qDebug() << "MainWindow::execCMenuVpnAcc: double click";
+        accountItem->doubleClick();
+    }
 }
