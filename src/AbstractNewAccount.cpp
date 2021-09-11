@@ -1,7 +1,7 @@
 #include "AbstractNewAccount.h"
 
-Status AbstractNewAccount::getStatus() const {
-    return Status::Null;
+AccStatus AbstractNewAccount::getStatus() const {
+    return AccStatus::Null;
 }
 
 QString AbstractNewAccount::getStatusStr() const {

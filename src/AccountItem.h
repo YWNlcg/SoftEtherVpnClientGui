@@ -9,7 +9,7 @@ public:
     AccountItem(const AccountData& data);
     // IAccountItem interface
     QString getTitle() const override;
-    Status getStatus() const override;
+    AccStatus getStatus() const override;
     QString getStatusStr() const override;
     QString getServerHostName() const override;
     QString getVirtualHub() const override;

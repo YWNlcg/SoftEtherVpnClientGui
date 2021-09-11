@@ -9,26 +9,26 @@ QString AccountItem::getTitle() const {
     return _data._vpnConName;
 }
 
-Status AccountItem::getStatus() const {
-    Status status;
+AccStatus AccountItem::getStatus() const {
+    AccStatus status;
     if (_data._connected) {
-        status = Status::Connected;
+        status = AccStatus::Connected;
     }
     else if (_data._active) {
-        status = Status::Connecting;
+        status = AccStatus::Connecting;
     }
     else {
-        status = Status::Offline;
+        status = AccStatus::Offline;
     }
     return status;
 }
 
 QString AccountItem::getStatusStr() const {
     switch (getStatus()) {
-    case Status::Null: return "";
-    case Status::Offline: return "Offline";
-    case Status::Connected: return "Connected";
-    case Status::Connecting: return "Connecting";
+    case AccStatus::Null: return "";
+    case AccStatus::Offline: return "Offline";
+    case AccStatus::Connected: return "Connected";
+    case AccStatus::Connecting: return "Connecting";
     }
 }
 

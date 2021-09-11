@@ -10,6 +10,7 @@ public:
     virtual ~INicItem() {};
     virtual QString getTitle() const = 0;
     virtual NicStatus getStatus() const = 0;
+    virtual QString getStatusStr() const = 0;
     virtual QString getMacAddr() const = 0;
     virtual QString getVersion() const = 0;
 };

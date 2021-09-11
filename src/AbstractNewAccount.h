@@ -5,7 +5,7 @@
 
 class AbstractNewAccount : public IAccountItem {
 public:
-    virtual Status getStatus() const override;
+    virtual AccStatus getStatus() const override;
     virtual QString getStatusStr() const override;
     virtual QString getServerHostName() const override;
     virtual QString getVirtualHub() const override;

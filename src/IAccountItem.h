@@ -10,7 +10,7 @@ class IAccountItem {
 public:
     virtual ~IAccountItem() {};
     virtual QString getTitle() const = 0;
-    virtual Status getStatus() const = 0;
+    virtual AccStatus getStatus() const = 0;
     virtual QString getStatusStr() const = 0;
     virtual QString getServerHostName() const = 0;
     virtual QString getVirtualHub() const = 0;

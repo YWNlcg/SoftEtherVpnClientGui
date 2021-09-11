@@ -10,9 +10,11 @@
 #include "NewAccountItem.h"
 #include "ContextMenuNic.h"
 #include "CmdAdapter.h"
-
+#include "INicItem.h"
+#include "NicItem.h"
 
 using AccItems = QVector<IAccountItem*>;
+using NicItems = QVector<INicItem*>;
 
 namespace Ui {
 class MainWindow;
@@ -35,7 +37,9 @@ private:
     void updateAccTable();
     void updateNicTable();
     void updateAccItems();
+    void updateNicItems();
     AccItems getAccountItems();
+    NicItems getNicItems();
     void freeAccItems();
 
 private slots:
@@ -45,6 +49,7 @@ private slots:
 private:
     Ui::MainWindow* _ui;
     AccItems _accItems;
+    NicItems _nicItems;
     IAccountContextMenu* _cMenuVpnAcc; // Context menu for VPN Accounts
     INicContextMenu* _cMenuNics;   // Context menu for Network Interface Card
 };

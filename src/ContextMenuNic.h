@@ -14,6 +14,12 @@ public:
 private:
     void setDisableAll();
 
+private slots:
+    void createVNA();
+    void enableVNA();
+    void disableVNA();
+    void deleteVNA();
+
 private:
     QMenu* _menu;
     QAction* _actionNewVNA;

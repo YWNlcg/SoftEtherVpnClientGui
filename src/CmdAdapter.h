@@ -19,7 +19,7 @@ public:
     int deleteNic(const QString& nicName);
     int disableNic(const QString& nicName);
     int enableNic(const QString& nicName);
-    QVector<Nic> getListNic();
+//    QVector<Nic> getListNic();
     int getListNic(QVector<Nic>& nics);
 //    int createAccount(AccountAdapter& acAdapter);
 //    int setAccount(AccountAdapter& acAdapter);

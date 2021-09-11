@@ -15,6 +15,10 @@ NicStatus NicItem::getStatus() const {
     return _nic._enable ? NicStatus::Enabled : NicStatus::Disabled;
 }
 
+QString NicItem::getStatusStr() const {
+    return _nic._enable ? "Enable" : "Disable";
+}
+
 QString NicItem::getMacAddr() const {
     return _nic._mac_address;
 }

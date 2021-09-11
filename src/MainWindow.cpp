@@ -79,6 +79,19 @@ void MainWindow::updateAccTable() {
 }
 
 void MainWindow::updateNicTable() {
+    auto& nicTable = _ui->TableWidgetNicSettings;
+    while (nicTable->rowCount()) {
+        nicTable->removeRow(0);
+    }
+
+    updateNicItems();
+    for (int i = 0; i < _nicItems.size(); ++i) {
+        nicTable->insertRow(i);
+        nicTable->setItem(i, 0, new QTableWidgetItem(_nicItems[i]->getTitle()));
+        nicTable->setItem(i, 1, new QTableWidgetItem(_nicItems[i]->getStatusStr()));
+        nicTable->setItem(i, 2, new QTableWidgetItem(_nicItems[i]->getMacAddr()));
+        nicTable->setItem(i, 3, new QTableWidgetItem(_nicItems[i]->getVersion()));
+    }
 
     _ui->TableWidgetNicSettings->resizeColumnsToContents();
 }
@@ -95,6 +108,15 @@ void MainWindow::updateAccItems() {
     }
 }
 
+void MainWindow::updateNicItems() {
+    while (!_nicItems.empty()) {
+        delete _nicItems.back();
+        _accItems.pop_back();
+    }
+
+    _nicItems = getNicItems();
+}
+
 AccItems MainWindow::getAccountItems() {
     AccItems items;
     auto& cmdAdapter = GetCmdAdapterInstance();
@@ -104,7 +126,18 @@ AccItems MainWindow::getAccountItems() {
     for (auto& ac: accounts) {
         items.push_back(new AccountItem(ac));
     }
+    return items;
+}
 
+NicItems MainWindow::getNicItems() {
+    NicItems items;
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    QVector<Nic> nics;
+    cmdAdapter.getListNic(nics);
+
+    for (auto& nic: nics) {
+        items.push_back(new NicItem(nic));
+    }
     return items;
 }
 

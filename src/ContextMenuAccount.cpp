@@ -44,19 +44,19 @@ void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
 
     if (_item != NULL) {
         switch (item->getStatus()) {
-        case Status::Null: {
+        case AccStatus::Null: {
 
         }; break;
 
-        case Status::Connected: {
+        case AccStatus::Connected: {
             _actionDisconnect->setEnabled(true);
         }; break;
 
-        case Status::Connecting: {
+        case AccStatus::Connecting: {
             _actionDisconnect->setEnabled(true);
         }; break;
 
-        case Status::Offline: {
+        case AccStatus::Offline: {
             _actionDelete->setEnabled(true);
         }; break;
 
