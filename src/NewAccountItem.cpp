@@ -10,7 +10,8 @@ QString NewAccountItem::getTitle() const {
 }
 
 void NewAccountItem::doubleClick(QWidget* parent) {
-    qDebug() << parent;
+    NewVpnConnectionDialog dialog(parent);
+    dialog.exec();
 }
 
 

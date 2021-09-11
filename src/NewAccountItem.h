@@ -2,6 +2,7 @@
 #define NEWACCOUNTITEM_H
 
 #include "AbstractNewAccount.h"
+#include "NewVpnConnectionDialog.h"
 
 class NewAccountItem : public AbstractNewAccount {
 public:
