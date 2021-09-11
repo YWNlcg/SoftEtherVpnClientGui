@@ -41,7 +41,6 @@ HEADERS += \
 FORMS += \
     ui/MainWindow.ui \
     ui/NewVpnConnectionDialog.ui \
-    ui/NewVpnConnectionWindow.ui
 
 INCLUDEPATH += \
     SoftEtherVPN/src/
