@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
+#include "Extern.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), _ui(new Ui::MainWindow),
@@ -22,14 +23,14 @@ MainWindow::~MainWindow() {
     freeAccItems();
 }
 
-void MainWindow::setCMenuVpnAcc(IContextMenu *cMenu) {
+void MainWindow::setCMenuVpnAcc(IAccountContextMenu *cMenu) {
     _cMenuVpnAcc = cMenu;
     auto& tableVpnCon = _ui->TableWidgetVpnConnectionSettings;
     connect(tableVpnCon, &QTableWidget::customContextMenuRequested,
             this, &MainWindow::execCMenuVpnAcc);
 }
 
-void MainWindow::setCMenuNics(IContextMenu *cMenu) {
+void MainWindow::setCMenuNics(INicContextMenu *cMenu) {
     _cMenuNics = cMenu;
     auto& tableNic = _ui->TableWidgetNicSettings;
     connect(tableNic, &QTableWidget::customContextMenuRequested,
@@ -113,10 +114,24 @@ void MainWindow::freeAccItems() {
     }
 }
 
-void MainWindow::execCMenuVpnAcc(const QPoint&) {
+void MainWindow::execCMenuVpnAcc(const QPoint& pos) {
     qDebug() << "execCMenuVpnAcc";
-    if (_cMenuVpnAcc != NULL) {
-        _cMenuVpnAcc->exec(QCursor::pos());
+    QString accName;
+    auto selectedItem = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
+    if (selectedItem != NULL) {
+        accName = _ui->TableWidgetVpnConnectionSettings->item(selectedItem->row(), 0)->text();
+        qDebug() << "accName = " << accName;
+    }
+    else {
+        _cMenuVpnAcc->exec(QCursor::pos(), NULL);
+        return;
+    }
+
+    for (auto& item: _accItems) {
+        if (item->getTitle() == accName) {
+            _cMenuVpnAcc->exec(QCursor::pos(), item);
+            break;
+        }
     }
 }
 
@@ -129,6 +144,6 @@ void MainWindow::execCMenuNics(const QPoint& pos) {
     }
 
     if (_cMenuNics != NULL) {
-        _cMenuNics->exec(QCursor::pos(), nicName);
+        _cMenuNics->exec(QCursor::pos(), NULL);
     }
 }

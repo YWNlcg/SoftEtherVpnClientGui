@@ -5,10 +5,13 @@ NewAccountItem::NewAccountItem(const QString &title)
 
 }
 
-QString NewAccountItem::getTitle() {
+QString NewAccountItem::getTitle() const {
     return _title;
 }
 
 void NewAccountItem::doubleClick() {
 
 }
+
+
+

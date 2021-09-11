@@ -3,16 +3,16 @@
 
 #include <QMainWindow>
 #include <QContextMenuEvent>
+
 #include "Types.h"
-#include "IContextMenu.h"
 #include "IAccountItem.h"
 #include "AccountItem.h"
 #include "NewAccountItem.h"
+#include "ContextMenuNic.h"
 #include "CmdAdapter.h"
 
 
 using AccItems = QVector<IAccountItem*>;
-CmdAdapter& GetCmdAdapterInstance();
 
 namespace Ui {
 class MainWindow;
@@ -24,8 +24,8 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void setCMenuVpnAcc(IContextMenu* cMenu);
-    void setCMenuNics(IContextMenu* cMenu);
+    void setCMenuVpnAcc(IAccountContextMenu* cMenu);
+    void setCMenuNics(INicContextMenu* cMenu);
 
 private:
     void initPolicy();
@@ -45,8 +45,8 @@ private slots:
 private:
     Ui::MainWindow* _ui;
     AccItems _accItems;
-    IContextMenu* _cMenuVpnAcc; // Context menu for VPN Accounts
-    IContextMenu* _cMenuNics;   // Context menu for Network Interface Card
+    IAccountContextMenu* _cMenuVpnAcc; // Context menu for VPN Accounts
+    INicContextMenu* _cMenuNics;   // Context menu for Network Interface Card
 };
 
 #endif // MAINWINDOW_H

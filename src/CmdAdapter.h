@@ -4,9 +4,6 @@
 #include "CTypes.h"
 #include "Types.h"
 #include "VpnClient.h"
-//#include "AccountAdapter.h"
-
-//using AccountItem = RPC_CLIENT_ENUM_ACCOUNT_ITEM;
 
 using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
 
@@ -28,7 +25,7 @@ public:
 //    int setAccount(AccountAdapter& acAdapter);
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<AccountData>& account);
-    int getConnectionStatus(const QString& conName);
+    int getConnectionStatus(const QString& conName, RpcConStatus* cs);
     int connect(const QString& name);
     int disconnect(const QString& name);
 
