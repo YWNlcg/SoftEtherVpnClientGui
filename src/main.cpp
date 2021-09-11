@@ -3,12 +3,8 @@
 #include <QApplication>
 #include "VpnClient.h"
 #include "CmdAdapter.h"
-<<<<<<< HEAD
-
-=======
 #include "ContextMenuAccount.h"
 #include "ContextMenuNic.h"
->>>>>>> restart-project
 #include "CTypes.h"
 
 CmdAdapter& GetCmdAdapterInstance() {
@@ -24,17 +20,10 @@ int main(int argc, char *argv[]) {
     auto& cmdAdapter = GetCmdAdapterInstance();
     cmdAdapter.init(&cl);
 
-<<<<<<< HEAD
-
-    MainWindow w;
-
-
-=======
     MainWindow w;
 
     w.setCMenuNics(new ContextMenuNic(&w));
     w.setCMenuVpnAcc(new ContextMenuAccount(&w));
->>>>>>> restart-project
 
     w.show();
     return a.exec();

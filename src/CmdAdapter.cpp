@@ -76,17 +76,6 @@ int CmdAdapter::getListNic(QVector<Nic> &listNic) {
     return err;
 }
 
-<<<<<<< HEAD
-int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
-    return CcCreateAccount(_vpnClient->getRemoteClient(),
-                           acAdapter.getRpcClientCreateAccount());
-}
-
-int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
-    return CcSetAccount(_vpnClient->getRemoteClient(),
-                        acAdapter.getRpcClientCreateAccount());
-}
-=======
 //int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
 //    return CcCreateAccount(_vpnClient->getRemoteClient(),
 //                           acAdapter.getRpcClientCreateAccount());
@@ -96,7 +85,6 @@ int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
 //    return CcSetAccount(_vpnClient->getRemoteClient(),
 //                        acAdapter.getRpcClientCreateAccount());
 //}
->>>>>>> restart-project
 
 int CmdAdapter::deleteAccount(const QString &accountName) {
     RPC_CLIENT_DELETE_ACCOUNT *t = new RPC_CLIENT_DELETE_ACCOUNT;
@@ -108,11 +96,7 @@ int CmdAdapter::deleteAccount(const QString &accountName) {
     return ret;
 }
 
-<<<<<<< HEAD
-int CmdAdapter::getAccountList(QVector<VpnConnectionItem> &items) {
-=======
 int CmdAdapter::getAccountList(QVector<AccountData> &items) {
->>>>>>> restart-project
     RPC_CLIENT_ENUM_ACCOUNT *t = new RPC_CLIENT_ENUM_ACCOUNT;
     auto err = CcEnumAccount(_vpnClient->getRemoteClient(), t);
     for (uint i = 0 ; i < t->NumItem; ++i) {
@@ -130,10 +114,6 @@ int CmdAdapter::getAccountList(QVector<AccountData> &items) {
     return err;
 }
 
-<<<<<<< HEAD
-int CmdAdapter::getConnectionStatus(const QString &conName) {
-
-=======
 int CmdAdapter::getAccount(const QString& name, RpcGetAccount *account) {
     auto t = new RpcGetAccount;
     Zero(t, sizeof(RpcGetAccount));
@@ -158,7 +138,6 @@ int CmdAdapter::getConnectionStatus(const QString &conName, RpcConStatus* cs) {
     memcpy(cs, t, sizeof(RpcConStatus));
     delete t;
     return ret;
->>>>>>> restart-project
 }
 
 int CmdAdapter::connect(const QString &name) {

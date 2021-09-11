@@ -9,32 +9,6 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-<<<<<<< HEAD
-    src/AccountAdapter.cpp \
-    src/CmdAdapter.cpp \
-    src/MainWindow.cpp \
-    src/NewVpnConnection.cpp \
-    src/VpnClient.cpp \
-    src/VpnConnection.cpp \
-    src/main.cpp \
-    src/loghandler.cpp
-
-HEADERS += \
-    src/AccountAdapter.h \
-    src/CTypes.h \
-    src/CmdAdapter.h \
-    src/IVpnConnection.h \
-    src/MainWindow.h \
-    src/NewVpnConnection.h \
-    src/Types.h \
-    src/VpnClient.h \
-    src/VpnConnection.h
-
-FORMS += \
-    ui/MainWindow.ui \
-    ui/NewVpnConnectionWindow.ui \
-    ui/VpnConnectionWindow.ui
-=======
     src/AbstractNewAccount.cpp \
     src/AccountItem.cpp \
     src/ContextMenuAccount.cpp \
@@ -68,7 +42,6 @@ FORMS += \
     ui/MainWindow.ui \
     ui/NewVpnConnectionDialog.ui \
     ui/NewVpnConnectionWindow.ui
->>>>>>> restart-project
 
 INCLUDEPATH += \
     SoftEtherVPN/src/

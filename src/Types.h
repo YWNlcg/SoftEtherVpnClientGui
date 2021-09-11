@@ -21,21 +21,12 @@
 #include <iostream>
 #include <cstring>
 
-<<<<<<< HEAD
-using namespace std;
-
-void log_handler(QtMsgType type, const char *msg);
-
-#define PROGRAMM_NAME "VpnClient"
-using uint = unsigned int;
-=======
 #define PROGRAMM_NAME "VpnClient"
 
 using namespace std;
 using uint = unsigned int;
 enum class AccStatus {Null, Offline, Connecting, Connected};
 enum class NicStatus {Enabled, Disabled};
->>>>>>> restart-project
 
 struct Nic {
     QString _deviceName;
@@ -44,11 +35,7 @@ struct Nic {
     QString _version;
 };
 
-<<<<<<< HEAD
-struct VpnConnectionItem {
-=======
 struct AccountData {
->>>>>>> restart-project
     QString _vpnConName;
     bool    _active;
     bool    _connected;
