@@ -76,6 +76,7 @@ int CmdAdapter::getListNic(QVector<Nic> &listNic) {
     return err;
 }
 
+<<<<<<< HEAD
 int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
     return CcCreateAccount(_vpnClient->getRemoteClient(),
                            acAdapter.getRpcClientCreateAccount());
@@ -85,6 +86,17 @@ int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
     return CcSetAccount(_vpnClient->getRemoteClient(),
                         acAdapter.getRpcClientCreateAccount());
 }
+=======
+//int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
+//    return CcCreateAccount(_vpnClient->getRemoteClient(),
+//                           acAdapter.getRpcClientCreateAccount());
+//}
+
+//int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
+//    return CcSetAccount(_vpnClient->getRemoteClient(),
+//                        acAdapter.getRpcClientCreateAccount());
+//}
+>>>>>>> restart-project
 
 int CmdAdapter::deleteAccount(const QString &accountName) {
     RPC_CLIENT_DELETE_ACCOUNT *t = new RPC_CLIENT_DELETE_ACCOUNT;
@@ -96,7 +108,11 @@ int CmdAdapter::deleteAccount(const QString &accountName) {
     return ret;
 }
 
+<<<<<<< HEAD
 int CmdAdapter::getAccountList(QVector<VpnConnectionItem> &items) {
+=======
+int CmdAdapter::getAccountList(QVector<AccountData> &items) {
+>>>>>>> restart-project
     RPC_CLIENT_ENUM_ACCOUNT *t = new RPC_CLIENT_ENUM_ACCOUNT;
     auto err = CcEnumAccount(_vpnClient->getRemoteClient(), t);
     for (uint i = 0 ; i < t->NumItem; ++i) {
@@ -114,8 +130,35 @@ int CmdAdapter::getAccountList(QVector<VpnConnectionItem> &items) {
     return err;
 }
 
+<<<<<<< HEAD
 int CmdAdapter::getConnectionStatus(const QString &conName) {
 
+=======
+int CmdAdapter::getAccount(const QString& name, RpcGetAccount *account) {
+    auto t = new RpcGetAccount;
+    Zero(t, sizeof(RpcGetAccount));
+    wcsncpy(t->AccountName, name.toStdWString().c_str(), name.size());
+    auto ret = CcGetAccount(_vpnClient->getRemoteClient(), t);
+    memcpy(account, t, sizeof(RpcGetAccount));
+    delete t;
+    return ret;
+}
+
+int CmdAdapter::getConnectionStatus(const QString &conName, RpcConStatus* cs) {
+    auto t = new RpcConStatus;
+    Zero(t, sizeof(RpcConStatus));
+    //t->ServerX = new X;
+    //t->ClientX = new X;
+    wcsncpy(t->AccountName, conName.toStdWString().c_str(), conName.size());
+    auto ret = CcGetAccountStatus(_vpnClient->getRemoteClient(), t);
+//    delete t->ServerX;
+//    delete t->ClientX;
+//    t->ServerX = NULL;
+//    t->ClientX = NULL;
+    memcpy(cs, t, sizeof(RpcConStatus));
+    delete t;
+    return ret;
+>>>>>>> restart-project
 }
 
 int CmdAdapter::connect(const QString &name) {

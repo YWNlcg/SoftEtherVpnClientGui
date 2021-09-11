@@ -6,7 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< HEAD
     <width>925</width>
+=======
+    <width>800</width>
+>>>>>>> restart-project
     <height>593</height>
    </rect>
   </property>
@@ -97,7 +101,11 @@
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< HEAD
      <width>925</width>
+=======
+     <width>800</width>
+>>>>>>> restart-project
      <height>20</height>
     </rect>
    </property>

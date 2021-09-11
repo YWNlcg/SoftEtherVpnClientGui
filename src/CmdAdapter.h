@@ -4,9 +4,15 @@
 #include "CTypes.h"
 #include "Types.h"
 #include "VpnClient.h"
+<<<<<<< HEAD
 #include "AccountAdapter.h"
 
 using AccountItem = RPC_CLIENT_ENUM_ACCOUNT_ITEM;
+=======
+
+using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
+using RpcGetAccount = RPC_CLIENT_GET_ACCOUNT;
+>>>>>>> restart-project
 
 class CmdAdapter {
 public:
@@ -20,6 +26,7 @@ public:
     int deleteNic(const QString& nicName);
     int disableNic(const QString& nicName);
     int enableNic(const QString& nicName);
+<<<<<<< HEAD
     QVector<Nic> getListNic();
     int getListNic(QVector<Nic>& nics);
     int createAccount(AccountAdapter& acAdapter);
@@ -27,6 +34,16 @@ public:
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<VpnConnectionItem>& account);
     int getConnectionStatus(const QString& conName);
+=======
+//    QVector<Nic> getListNic();
+    int getListNic(QVector<Nic>& nics);
+//    int createAccount(AccountAdapter& acAdapter);
+//    int setAccount(AccountAdapter& acAdapter);
+    int deleteAccount(const QString& accountName);
+    int getAccountList(QVector<AccountData>& account);
+    int getAccount(const QString& name, RpcGetAccount* account);
+    int getConnectionStatus(const QString& conName, RpcConStatus* cs);
+>>>>>>> restart-project
     int connect(const QString& name);
     int disconnect(const QString& name);
 
