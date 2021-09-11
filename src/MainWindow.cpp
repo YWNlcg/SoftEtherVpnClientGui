@@ -51,6 +51,9 @@ void MainWindow::initAccTable() {
     _ui->TableWidgetVpnConnectionSettings->setSelectionBehavior(QAbstractItemView::SelectRows);
     _ui->TableWidgetVpnConnectionSettings->setEditTriggers(QAbstractItemView::NoEditTriggers);
     updateAccTable();
+    auto& tableVpnCon = _ui->TableWidgetVpnConnectionSettings;
+    connect(tableVpnCon, &QTableWidget::cellDoubleClicked,
+            this, )
 }
 
 void MainWindow::initNicTable() {
@@ -148,7 +151,17 @@ void MainWindow::freeAccItems() {
 }
 
 IAccountItem* MainWindow::getAccountItem(const QPoint &pos) {
-    auto selectedItem = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
+    auto item = _ui->TableWidgetVpnConnectionSettings->itemAt(pos);
+    return getAccountItem(item->row(), item->column());
+}
+
+INicItem* MainWindow::getNicItem(const QPoint &pos) {
+    auto item = _ui->TableWidgetNicSettings->itemAt(pos);
+    return getNicItem(item->row(), item->column());
+}
+
+IAccountItem *MainWindow::getAccountItem(int row, int column) {
+    auto selectedItem = _ui->TableWidgetVpnConnectionSettings->item(row, column);
     if (selectedItem == NULL) {
         return NULL;
     }
@@ -161,8 +174,8 @@ IAccountItem* MainWindow::getAccountItem(const QPoint &pos) {
     return NULL;
 }
 
-INicItem* MainWindow::getNicItem(const QPoint &pos) {
-    auto selectedItem = _ui->TableWidgetNicSettings->itemAt(pos);
+INicItem *MainWindow::getNicItem(int row, int column) {
+    auto selectedItem = _ui->TableWidgetNicSettings->item(row, column);
     if (selectedItem == NULL) {
         return NULL;
     }
@@ -186,4 +199,8 @@ void MainWindow::execCMenuNics(const QPoint& pos) {
     QString nicName;
     auto nicItem = getNicItem(pos);
     _cMenuNics->exec(QCursor::pos(), nicItem);
+}
+
+void MainWindow::execCMenuVpnAcc(int row, int column) {
+
 }
