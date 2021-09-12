@@ -32,6 +32,7 @@ private:
     void setStandartAuth();
     void setRadiusAuth();
     void setCertAuth();
+    void setSmartCardAuth();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);

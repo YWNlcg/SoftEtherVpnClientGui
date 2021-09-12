@@ -46,6 +46,13 @@ void NewVpnConnectionDialog::init() {
     _ui->comboBoxAuthType->addItem("Client Certificate Authentication");
     _ui->comboBoxAuthType->addItem("Smart Card Authentication");
 
+    // For change Auth Type
+    connect(_ui->comboBoxAuthType, &QComboBox::currentIndexChanged,
+            this, &NewVpnConnectionDialog::onAuthTypeChanged);
+
+    // Init Anonymous Auth
+    emit _ui->comboBoxAuthType->currentIndexChanged(int(AuthType::Anonymous));
+
     // Button box - "Cancel", "Ok"
     connect(_ui->buttonBox, &QDialogButtonBox::clicked,
             this, &NewVpnConnectionDialog::onButtonBoxClicked);
@@ -66,10 +73,6 @@ void NewVpnConnectionDialog::init() {
 
     // Disable button - "Ok"
     dataValidation();
-
-    // For change Auth Type
-    connect(_ui->comboBoxAuthType, &QComboBox::currentIndexChanged,
-            this, &NewVpnConnectionDialog::onAuthTypeChanged);
 }
 
 bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
@@ -279,6 +282,37 @@ void NewVpnConnectionDialog::setCertAuth() {
     _ui->gridLayoutUpdate->setColumnStretch(3, 1);
 }
 
+void NewVpnConnectionDialog::setSmartCardAuth() {
+    removeAuth();
+
+    auto pushButtonSelectSmartCard = new QPushButton(_ui->groupBox_5);
+    pushButtonSelectSmartCard->setObjectName(QString::fromUtf8("pushButtonSelectSmartCard"));
+    pushButtonSelectSmartCard->setText("Select Smart Card");
+
+    _ui->gridLayoutUpdate->addWidget(pushButtonSelectSmartCard, 1, 0, 1, 2);
+
+    auto pushButtonSpecifyCert = new QPushButton(_ui->groupBox_5);
+    pushButtonSpecifyCert->setObjectName(QString::fromUtf8("pushButtonSpecifyCert"));
+    pushButtonSpecifyCert->setText("Specify Cert and Private Key");
+
+    _ui->gridLayoutUpdate->addWidget(pushButtonSpecifyCert, 1, 2, 1, 2);
+
+    auto labelAuthInfo = new QLabel(_ui->groupBox_5);
+    labelAuthInfo->setObjectName(QString::fromUtf8("labelAuthInfo"));
+    labelAuthInfo->setText("Specify the client certificate and private key inside the\n"
+                           "smart card to be used for user authentication.");
+
+    _ui->gridLayoutUpdate->addWidget(labelAuthInfo, 0, 1, 1, 3);
+
+    _ui->gridLayoutUpdate->setRowStretch(0, 1);
+    _ui->gridLayoutUpdate->setRowStretch(1, 1);
+    _ui->gridLayoutUpdate->setRowStretch(2, 0);
+    _ui->gridLayoutUpdate->setColumnStretch(0, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(1, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(2, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(3, 1);
+}
+
 void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
     if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
         createAccount();
@@ -310,7 +344,7 @@ void NewVpnConnectionDialog::onAuthTypeChanged(int index) {
     }; break;
 
     case AuthType::SmartCard: {
-
+        setSmartCardAuth();
     }; break;
 
     default: {
