@@ -195,6 +195,7 @@ void NewVpnConnectionDialog::setStandartAuth() {
     _ui->gridLayoutUpdate->addWidget(pushButtonChangePassword, 2, 3, 1, 1);
     auto lineEditPassword = new QLineEdit(_ui->groupBox_5);
     lineEditPassword->setObjectName(QString::fromUtf8(QOBJECT_NAME_PASSWORD));
+    lineEditPassword->setEchoMode(QLineEdit::Password);
 
     _ui->gridLayoutUpdate->addWidget(lineEditPassword, 0, 2, 1, 2);
 
@@ -232,11 +233,11 @@ void NewVpnConnectionDialog::setRadiusAuth() {
 
     _ui->gridLayoutUpdate->addItem(horizontalSpacer, 0, 0, 1, 1);
 
-    auto lineEdit = new QLineEdit(_ui->groupBox_5);
-    lineEdit->setObjectName(QString::fromUtf8(QOBJECT_NAME_PASSWORD));
-    //lineEdit->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignVCenter);
+    auto lineEditPassword = new QLineEdit(_ui->groupBox_5);
+    lineEditPassword->setObjectName(QString::fromUtf8(QOBJECT_NAME_PASSWORD));
+    lineEditPassword->setEchoMode(QLineEdit::Password);
 
-    _ui->gridLayoutUpdate->addWidget(lineEdit, 0, 2, 1, 2);
+    _ui->gridLayoutUpdate->addWidget(lineEditPassword, 0, 2, 1, 2);
 
     auto verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
