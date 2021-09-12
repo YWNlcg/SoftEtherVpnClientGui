@@ -163,6 +163,7 @@ AuthType NewVpnConnectionDialog::getAuthType() {
 void NewVpnConnectionDialog::removeAuth() {
     auto layout = _ui->gridLayoutUpdate->layout();
     while (QLayoutItem* item = layout->takeAt(0)) {
+        qDebug() << "NewVpnConnectionDialog::removeAuth - remove: " << item->widget();
         delete item->widget();
         delete item;
     }
@@ -214,6 +215,41 @@ void NewVpnConnectionDialog::setStandartAuth() {
     _ui->gridLayoutUpdate->setColumnStretch(3, 5);
 }
 
+void NewVpnConnectionDialog::setRadiusAuth() {
+    removeAuth();
+
+    auto label = new QLabel(_ui->groupBox_5);
+    label->setObjectName(QString::fromUtf8("label"));
+    label->setAlignment(Qt::AlignRight | Qt::AlignTrailing | Qt::AlignVCenter);
+    label->setText("Password:");
+
+    _ui->gridLayoutUpdate->addWidget(label, 0, 1, 1, 1);
+
+    auto horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+    _ui->gridLayoutUpdate->addItem(horizontalSpacer, 0, 0, 1, 1);
+
+    auto lineEdit = new QLineEdit(_ui->groupBox_5);
+    lineEdit->setObjectName(QString::fromUtf8(QOBJECT_NAME_PASSWORD));
+    //lineEdit->setAlignment(Qt::AlignLeading | Qt::AlignLeft | Qt::AlignVCenter);
+
+    _ui->gridLayoutUpdate->addWidget(lineEdit, 0, 2, 1, 2);
+
+    auto verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+    _ui->gridLayoutUpdate->addItem(verticalSpacer, 1, 2, 1, 1);
+
+    _ui->gridLayoutUpdate->setRowStretch(0, 1);
+    _ui->gridLayoutUpdate->setRowStretch(1, 1);
+    _ui->gridLayoutUpdate->setRowStretch(2, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(0, 2);
+    _ui->gridLayoutUpdate->setColumnStretch(1, 4);
+    _ui->gridLayoutUpdate->setColumnStretch(2, 5);
+    _ui->gridLayoutUpdate->setColumnStretch(3, 5);
+
+    _ui->verticalLayout_3->setStretch(1, 1);
+}
+
 void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
     if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
         createAccount();
@@ -237,7 +273,7 @@ void NewVpnConnectionDialog::onAuthTypeChanged(int index) {
     }; break;
 
     case AuthType::Radius: {
-
+        setRadiusAuth();
     }; break;
 
     case AuthType::Certificate: {

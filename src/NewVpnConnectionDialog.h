@@ -30,6 +30,7 @@ private:
     void removeAuth();
     void setAnonimousAuth();
     void setStandartAuth();
+    void setRadiusAuth();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);
