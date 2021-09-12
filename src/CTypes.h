@@ -7,7 +7,7 @@ extern "C" {
 #include <Cedar/Account.h>
 #include <Cedar/Client.h>
 //#include <Cedar/CedarType.h>
-//#include <Cedar/Cedar.h>
+#include <Cedar/Cedar.h>
 #include <Cedar/Connection.h>
 
 REMOTE_CLIENT *CcConnectRpc(char *server_name, char *password, bool *bad_pass, bool *no_remote, UINT wait_retry);

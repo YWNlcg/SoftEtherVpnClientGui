@@ -40,6 +40,7 @@ enum class AuthType {
     Radius = AUTH_TYPE_RADIUS,
     Certificate = AUTH_TYPE_CERT,
     SmartCard = AUTH_TYPE_SMARTCARD,
+    Unknown
 };
 
 struct Nic {

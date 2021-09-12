@@ -5,6 +5,7 @@
 #include <QListWidget>
 
 #include "Extern.h"
+#include "Types.h"
 
 namespace Ui {
 class NewVpnConnectionDialog;
@@ -23,6 +24,9 @@ private:
     bool checkSettingName(const QString& name);
     void createAccount();
     void dataValidation();
+    AuthType getAuthType();
+    void removeAuth();
+    void setStandartAuth();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);
