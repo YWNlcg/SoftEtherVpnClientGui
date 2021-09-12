@@ -7,6 +7,8 @@
 #include "Extern.h"
 #include "Types.h"
 
+#define QOBJECT_NAME_PASSWORD "lineEditPassword"
+
 namespace Ui {
 class NewVpnConnectionDialog;
 }
@@ -26,10 +28,12 @@ private:
     void dataValidation();
     AuthType getAuthType();
     void removeAuth();
+    void setAnonimousAuth();
     void setStandartAuth();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);
+    void onAuthTypeChanged(int index);
 
 private:
     Ui::NewVpnConnectionDialog *_ui;
