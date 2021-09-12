@@ -11,8 +11,68 @@ NewVpnConnectionDialog::~NewVpnConnectionDialog() {
     delete _ui;
 }
 
-void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *ac) {
+void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *account) {
+    auto settingName = QString::fromWCharArray(account->AccountName);
+    auto hostName = account->ClientOption->Hostname;
+    auto port = account->ClientOption->Port == 0 ? account->ClientOption->Port
+                                                 : account->ClientOption->PortUDP;
+    auto hubName = account->ClientOption->HubName;
+    auto nic = account->ClientOption->DeviceName;
+    auto userName = account->ClientAuth->Username;
+    auto password = account->ClientAuth->PlainPassword;
+    auto authType = account->ClientAuth->AuthType;
 
+    // Set Setting Name
+    _ui->lineEditSettingName->setText(settingName);
+    _ui->lineEditSettingName->setDisabled(true);
+    // Set Host Name
+    _ui->lineEditHostName->setText(hostName);
+    // Set Port Number
+    _ui->comboBoxHubName->setCurrentText(QString::number(port));
+    // Set HUB Name
+    _ui->comboBoxHubName->setCurrentText(hubName);
+    // Set User Name
+    _ui->lineEditUserName->setText(userName);
+    // Set Auth Type
+    switch (AuthType(authType)) {
+    case AuthType::Anonymous: {
+        setAnonimousAuth();
+        auto lineEdit = findChild<QLineEdit*>(QOBJECT_NAME_PASSWORD);
+        if (lineEdit != NULL) {
+            lineEdit->setText(password);
+        }
+    }; break;
+
+    case AuthType::Password: {
+        setStandartAuth();
+        auto lineEdit = findChild<QLineEdit*>(QOBJECT_NAME_PASSWORD);
+        if (lineEdit != NULL) {
+            lineEdit->setText(password);
+        }
+    }; break;
+
+    case AuthType::Radius: {
+        setRadiusAuth();
+    }; break;
+
+    case AuthType::Certificate: {
+        setCertAuth();
+    }; break;
+
+    case AuthType::SmartCard: {
+        setSmartCardAuth();
+    }; break;
+
+    default: {
+        qDebug() << "NewVpnConnectionDialog::setAccountData - Unknown Auth Type";
+    }
+    }
+    // Set Network Virtual Adapter (or NIC)
+    auto list = _ui->listWidgetNics->findItems(nic, Qt::MatchFixedString |
+                                                    Qt::MatchCaseSensitive);
+    if (!list.isEmpty()) {
+        _ui->listWidgetNics->setCurrentItem(list[0]);
+    }
 }
 
 void NewVpnConnectionDialog::init() {
