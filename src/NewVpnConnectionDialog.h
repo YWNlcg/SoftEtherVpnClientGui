@@ -31,6 +31,7 @@ private:
     void setAnonimousAuth();
     void setStandartAuth();
     void setRadiusAuth();
+    void setCertAuth();
 
 private slots:
     void onButtonBoxClicked(QAbstractButton *button);

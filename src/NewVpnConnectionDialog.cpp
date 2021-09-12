@@ -246,8 +246,37 @@ void NewVpnConnectionDialog::setRadiusAuth() {
     _ui->gridLayoutUpdate->setColumnStretch(1, 4);
     _ui->gridLayoutUpdate->setColumnStretch(2, 5);
     _ui->gridLayoutUpdate->setColumnStretch(3, 5);
+}
 
-    _ui->verticalLayout_3->setStretch(1, 1);
+void NewVpnConnectionDialog::setCertAuth() {
+    removeAuth();
+
+    auto pushButtonViewCert = new QPushButton(_ui->groupBox_5);
+    pushButtonViewCert->setObjectName(QString::fromUtf8("pushButtonViewCert"));
+    pushButtonViewCert->setText("View Client Certificate");
+
+    _ui->gridLayoutUpdate->addWidget(pushButtonViewCert, 1, 0, 1, 2);
+
+    auto pushButtonSpecifyCert = new QPushButton(_ui->groupBox_5);
+    pushButtonSpecifyCert->setObjectName(QString::fromUtf8("pushButtonSpecifyCert"));
+    pushButtonSpecifyCert->setText("Specify Client Sertificate");
+
+    _ui->gridLayoutUpdate->addWidget(pushButtonSpecifyCert, 1, 2, 1, 2);
+
+    auto labelAuthInfo = new QLabel(_ui->groupBox_5);
+    labelAuthInfo->setObjectName(QString::fromUtf8("labelAuthInfo"));
+    labelAuthInfo->setText("You must specify a client certificate to be user\n"
+                           "for user authentication.");
+
+    _ui->gridLayoutUpdate->addWidget(labelAuthInfo, 0, 1, 1, 3);
+
+    _ui->gridLayoutUpdate->setRowStretch(0, 1);
+    _ui->gridLayoutUpdate->setRowStretch(1, 1);
+    _ui->gridLayoutUpdate->setRowStretch(2, 0);
+    _ui->gridLayoutUpdate->setColumnStretch(0, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(1, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(2, 1);
+    _ui->gridLayoutUpdate->setColumnStretch(3, 1);
 }
 
 void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
@@ -277,7 +306,7 @@ void NewVpnConnectionDialog::onAuthTypeChanged(int index) {
     }; break;
 
     case AuthType::Certificate: {
-
+        setCertAuth();
     }; break;
 
     case AuthType::SmartCard: {
