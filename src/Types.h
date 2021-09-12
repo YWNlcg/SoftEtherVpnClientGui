@@ -21,12 +21,26 @@
 #include <iostream>
 #include <cstring>
 
+#include "CTypes.h"
+
 #define PROGRAMM_NAME "VpnClient"
+#define AUTH_TYPE_ANONYMOUS CLIENT_AUTHTYPE_ANONYMOUS
+#define AUTH_TYPE_PASSWORD  CLIENT_AUTHTYPE_PASSWORD
+#define AUTH_TYPE_RADIUS    CLIENT_AUTHTYPE_PLAIN_PASSWORD
+#define AUTH_TYPE_CERT      CLIENT_AUTHTYPE_CERT
+#define AUTH_TYPE_SMARTCARD CLIENT_AUTHTYPE_SECURE
 
 using namespace std;
 using uint = unsigned int;
 enum class AccStatus {Null, Offline, Connecting, Connected};
 enum class NicStatus {Enabled, Disabled};
+enum class AuthType {
+    Anonymous = AUTH_TYPE_ANONYMOUS,
+    Password = AUTH_TYPE_PASSWORD,
+    Radius = AUTH_TYPE_RADIUS,
+    Certificate = AUTH_TYPE_CERT,
+    SmartCard = AUTH_TYPE_SMARTCARD,
+};
 
 struct Nic {
     QString _deviceName;
