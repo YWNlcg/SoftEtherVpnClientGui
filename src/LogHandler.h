@@ -8,6 +8,7 @@
 #include <iostream>
 
 Q_DECLARE_LOGGING_CATEGORY(DefLog)
+Q_DECLARE_LOGGING_CATEGORY(CA)
 
 #define logInfo(category, ...)     qCInfo(category, __VA_ARGS__)
 #define logWarning(category, ...)  qCWarning(category, __VA_ARGS__)

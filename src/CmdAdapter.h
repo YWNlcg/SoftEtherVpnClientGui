@@ -4,6 +4,8 @@
 #include "CTypes.h"
 #include "Types.h"
 #include "VpnClient.h"
+#include "LogHandler.h"
+
 
 using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
 using RpcGetAccount = RPC_CLIENT_GET_ACCOUNT;

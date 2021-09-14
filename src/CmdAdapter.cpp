@@ -1,13 +1,14 @@
 #include "CmdAdapter.h"
 
-CmdAdapter::CmdAdapter() : CmdAdapter(NULL) {cout << "3\n";}
+CmdAdapter::CmdAdapter() : CmdAdapter(NULL) {}
 
 CmdAdapter::CmdAdapter(VpnClient *vpnClient)
-    : _vpnClient(vpnClient) {}
+    : _vpnClient(vpnClient) {
+    logInfo(CA, "Create CmdAdapter");
+}
 
 CmdAdapter::CmdAdapter(CmdAdapter &&other)
-    : CmdAdapter(other._vpnClient) {
-}
+    : CmdAdapter(other._vpnClient) {}
 
 CmdAdapter::CmdAdapter(const CmdAdapter &other)
     : CmdAdapter(other._vpnClient) {
@@ -19,10 +20,12 @@ const CmdAdapter &CmdAdapter::operator =(CmdAdapter &&other) {
 }
 
 void CmdAdapter::init(VpnClient *vpnClient) {
+    logInfo(CA, "Init CmdAdapter");
     _vpnClient = vpnClient;
 }
 
 int CmdAdapter::createNic(const QString& nicName) {
+    logInfo(CA, "Create Virtal Network Adapter: %s", nicName.toStdString().c_str());
     RPC_CLIENT_CREATE_VLAN *t = new RPC_CLIENT_CREATE_VLAN;
     Zero(t, sizeof(RPC_CLIENT_CREATE_VLAN));
     strcpy(t->DeviceName, nicName.toStdString().c_str());
@@ -32,6 +35,7 @@ int CmdAdapter::createNic(const QString& nicName) {
 }
 
 int CmdAdapter::deleteNic(const QString& nicName) {
+    logInfo(CA, "Delete Virtal Network Adapter: %s", nicName.toStdString().c_str());
     RPC_CLIENT_CREATE_VLAN *t = new RPC_CLIENT_CREATE_VLAN;
     Zero(t, sizeof(RPC_CLIENT_CREATE_VLAN));
     strcpy(t->DeviceName, nicName.toStdString().c_str());
@@ -41,6 +45,7 @@ int CmdAdapter::deleteNic(const QString& nicName) {
 }
 
 int CmdAdapter::disableNic(const QString &nicName) {
+    logInfo(CA, "Disable Virtal Network Adapter: %s", nicName.toStdString().c_str());
     RPC_CLIENT_CREATE_VLAN *t = new RPC_CLIENT_CREATE_VLAN;
     Zero(t, sizeof(RPC_CLIENT_CREATE_VLAN));
     strcpy(t->DeviceName, nicName.toStdString().c_str());
@@ -50,6 +55,7 @@ int CmdAdapter::disableNic(const QString &nicName) {
 }
 
 int CmdAdapter::enableNic(const QString &nicName) {
+    logInfo(CA, "Enable Virtal Network Adapter: %s", nicName.toStdString().c_str());
     RPC_CLIENT_CREATE_VLAN *t = new RPC_CLIENT_CREATE_VLAN;
     Zero(t, sizeof(RPC_CLIENT_CREATE_VLAN));
     strcpy(t->DeviceName, nicName.toStdString().c_str());
@@ -59,6 +65,7 @@ int CmdAdapter::enableNic(const QString &nicName) {
 }
 
 int CmdAdapter::getListNic(QVector<Nic> &listNic) {
+    logInfo(CA, "Get List Virtal Network Adapters");
     RPC_CLIENT_ENUM_VLAN *enumVlan = new RPC_CLIENT_ENUM_VLAN;
     //Zero(&enumVlan, sizeof(RPC_CLIENT_ENUM_VLAN));
     auto err = CcEnumVLan(_vpnClient->getRemoteClient(), enumVlan);
@@ -87,6 +94,7 @@ int CmdAdapter::getListNic(QVector<Nic> &listNic) {
 //}
 
 int CmdAdapter::deleteAccount(const QString &accountName) {
+    logInfo(CA, "Delete Account: %s", accountName.toStdString().c_str());
     RPC_CLIENT_DELETE_ACCOUNT *t = new RPC_CLIENT_DELETE_ACCOUNT;
     Zero(t, sizeof(RPC_CLIENT_DELETE_ACCOUNT));
     auto acNameLen = accountName.size() > MAX_ACCOUNT_NAME_LEN ? MAX_ACCOUNT_NAME_LEN : accountName.size();
@@ -97,6 +105,7 @@ int CmdAdapter::deleteAccount(const QString &accountName) {
 }
 
 int CmdAdapter::getAccountList(QVector<AccountData> &items) {
+    logInfo(CA, "Get Account List");
     RPC_CLIENT_ENUM_ACCOUNT *t = new RPC_CLIENT_ENUM_ACCOUNT;
     auto err = CcEnumAccount(_vpnClient->getRemoteClient(), t);
     for (uint i = 0 ; i < t->NumItem; ++i) {
@@ -115,6 +124,7 @@ int CmdAdapter::getAccountList(QVector<AccountData> &items) {
 }
 
 int CmdAdapter::getAccount(const QString& name, RpcGetAccount *account) {
+    logInfo(CA, "Get Account Info: %s", name.toStdString().c_str());
     auto t = new RpcGetAccount;
     Zero(t, sizeof(RpcGetAccount));
     wcsncpy(t->AccountName, name.toStdWString().c_str(), name.size());
@@ -125,6 +135,7 @@ int CmdAdapter::getAccount(const QString& name, RpcGetAccount *account) {
 }
 
 int CmdAdapter::getConnectionStatus(const QString &conName, RpcConStatus* cs) {
+    logInfo(CA, "Get status about connection: %s", conName.toStdString().c_str());
     auto t = new RpcConStatus;
     Zero(t, sizeof(RpcConStatus));
     //t->ServerX = new X;
@@ -141,6 +152,7 @@ int CmdAdapter::getConnectionStatus(const QString &conName, RpcConStatus* cs) {
 }
 
 int CmdAdapter::connect(const QString &name) {
+    logInfo(CA, "Connect to: %s", name.toStdString().c_str());
     RPC_CLIENT_CONNECT *t = new RPC_CLIENT_CONNECT;
     Zero(t, sizeof(RPC_CLIENT_CONNECT));
     wcsncpy(t->AccountName, name.toStdWString().c_str(), name.size());
@@ -150,6 +162,7 @@ int CmdAdapter::connect(const QString &name) {
 }
 
 int CmdAdapter::disconnect(const QString &name) {
+    logInfo(CA, "Disconnect to: %s", name.toStdString().c_str());
     RPC_CLIENT_CONNECT *t = new RPC_CLIENT_CONNECT;
     Zero(t, sizeof(RPC_CLIENT_CONNECT));
     wcsncpy(t->AccountName, name.toStdWString().c_str(), name.size());
