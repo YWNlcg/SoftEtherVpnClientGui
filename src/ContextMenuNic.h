@@ -4,6 +4,7 @@
 #include <QMenu>
 
 #include "INicItem.h"
+#include "LogHandler.h"
 
 class ContextMenuNic : public INicContextMenu {
 public:

@@ -2,6 +2,8 @@
 
 ContextMenuNic::ContextMenuNic(QWidget* parent)
     : _menu(new QMenu(parent)) {
+    logInfo(Widget, "Create context menu for Network Virtual Adapters");
+
     _actionNewVNA = new QAction("New Virtual Network Adapter...");
     _actionNewVNA->setObjectName(QString::fromUtf8("actionNewVNA"));
 
@@ -28,11 +30,12 @@ ContextMenuNic::ContextMenuNic(QWidget* parent)
 }
 
 ContextMenuNic::~ContextMenuNic() {
+    logDebug(Widget, "Destruct context menu for Network Virtual Adapters");
     delete _menu;
 }
 
 void ContextMenuNic::exec(const QPoint &pos, INicItem* item) {
-    qDebug() << "ContextMenuNic::exec(" << pos << ")";
+    logInfo(Widget, "Exec context menu for Network Virtual Adapters");
 
     if (item != NULL) {
         switch (item->getStatus()) {
@@ -47,7 +50,7 @@ void ContextMenuNic::exec(const QPoint &pos, INicItem* item) {
         }; break;
 
         default: {
-            qDebug() << "NicStatus unknown";
+            logWarning(Widget, "Unknow status: %d", item->getStatus());
             return;
         }
         }
@@ -55,26 +58,28 @@ void ContextMenuNic::exec(const QPoint &pos, INicItem* item) {
 
     _menu->exec(pos);
     setDisableAll();
+    logDebug(Widget, "Close context menu for Network Virtual Adapters");
 }
 
 void ContextMenuNic::setDisableAll() {
+    logDebug(Widget, "Disable all context menu");
     _actionEnable->setDisabled(true);
     _actionDisable->setDisabled(true);
     _actionDelete->setDisabled(true);
 }
 
 void ContextMenuNic::createVNA() {
-    qDebug() << "Create VNA";
+    logDebug(Widget, "Button pressed - \"Create VNA\"");
 }
 
 void ContextMenuNic::enableVNA() {
-    qDebug() << "Enable VNA";
+    logDebug(Widget, "Button pressed - \"Enable VNA\"");
 }
 
 void ContextMenuNic::disableVNA() {
-    qDebug() << "Disable VNA";
+    logDebug(Widget, "Button pressed - \"Disable VNA\"");
 }
 
 void ContextMenuNic::deleteVNA() {
-    qDebug() << "Delete VNA";
+    logDebug(Widget, "Button pressed - \"Delete VNA\"");
 }
