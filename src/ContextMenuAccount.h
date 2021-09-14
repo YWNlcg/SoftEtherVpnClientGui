@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include "IAccountItem.h"
+#include "LogHandler.h"
 
 #define QOBJ_NAME_ACTION_NEW "actionNew"
 #define QOBJ_NAME_ACTION_STATUS "actionStatus"

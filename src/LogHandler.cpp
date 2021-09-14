@@ -2,6 +2,7 @@
 
 Q_LOGGING_CATEGORY(DefLog, "Default")
 Q_LOGGING_CATEGORY(CA, "CmdAdapter")
+Q_LOGGING_CATEGORY(Widget, "Widget")
 
 void logHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     QFile fMessFile(QDir::currentPath() + "/" + LOG_FILENAME);

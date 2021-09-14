@@ -3,6 +3,8 @@
 
 ContextMenuAccount::ContextMenuAccount(QWidget* parent)
     : _menu(new QMenu(parent)) {
+    logInfo(Widget, "Create context menu for accounts");
+
     _actionConnect = new QAction("Connect", _menu);
     _actionConnect->setObjectName(QString::fromUtf8(QOBJ_NAME_ACTION_CONNECT));
 
@@ -34,12 +36,12 @@ ContextMenuAccount::ContextMenuAccount(QWidget* parent)
 }
 
 ContextMenuAccount::~ContextMenuAccount() {
-    qDebug() << "destruct menu";
+    logDebug(Widget, "Destruct context menu for account");
     delete _menu;
 }
 
 void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
-    qDebug() << "ContextMenuAccount::exec(" << pos << ")";
+    logInfo(Widget, "Exec context menu for accounts");
     _item = item;
 
     if (_item != NULL) {
@@ -61,7 +63,7 @@ void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
         }; break;
 
         default: {
-            qDebug() << "unknown status";
+            logWarning(Widget, "Unknow status: %d", item->getStatus());
             return;
         }
         }
@@ -69,9 +71,11 @@ void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
     _menu->exec(pos);
 
     setDisableAll();
+    logDebug(Widget, "Close context menu for accounts");
 }
 
 void ContextMenuAccount::setDisableAll() {
+    logDebug(Widget, "Disable all context menu");
     _actionConnect->setDisabled(true);
     _actionDelete->setDisabled(true);
     _actionDisconnect->setDisabled(true);
@@ -79,21 +83,21 @@ void ContextMenuAccount::setDisableAll() {
 }
 
 void ContextMenuAccount::newAccount() {
-    qDebug() << "New Account";
+    logDebug(Widget, "Button pressed - \"Create New Account\"");
 }
 
 void ContextMenuAccount::deleteAccount() {
-    qDebug() << "Delete account";
+    logDebug(Widget, "Button pressed - \"Delete\"");
 }
 
 void ContextMenuAccount::statusAccount() {
-    qDebug() << "Status Account";
+    logDebug(Widget, "Button pressed - \"Status\"");
 }
 
 void ContextMenuAccount::connectAccount() {
-    qDebug() << "Connect Account";
+    logDebug(Widget, "Button pressed - \"Connect\"");
 }
 
 void ContextMenuAccount::disconnectAccount() {
-    qDebug() << "disconnect Account";
+    logDebug(Widget, "Button pressed - \"Disconnect\"");
 }
