@@ -3,6 +3,7 @@
 
 #include "AbstractNewAccount.h"
 #include "NewVpnConnectionDialog.h"
+#include "LogHandler.h"
 
 class NewAccountItem : public AbstractNewAccount {
 public:
