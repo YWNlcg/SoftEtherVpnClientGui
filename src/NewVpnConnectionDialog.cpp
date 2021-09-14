@@ -3,11 +3,13 @@
 
 NewVpnConnectionDialog::NewVpnConnectionDialog(QWidget *parent) :
     QDialog(parent), _ui(new Ui::NewVpnConnectionDialog) {
+    logInfo(Widget, "Create NewVpnConnectionDialog");
     _ui->setupUi(this);
     init();
 }
 
 NewVpnConnectionDialog::~NewVpnConnectionDialog() {
+    logDebug(Widget, "Destruct NewVpnConnectionDialog");
     delete _ui;
 }
 
@@ -21,6 +23,8 @@ void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *account) {
     auto userName = account->ClientAuth->Username;
     auto password = account->ClientAuth->PlainPassword;
     auto authType = account->ClientAuth->AuthType;
+
+    logInfo(Widget, "Setting data: SettingName=%s", settingName.toStdString().c_str());
 
     // Set Setting Name
     _ui->lineEditSettingName->setText(settingName);
@@ -64,7 +68,7 @@ void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *account) {
     }; break;
 
     default: {
-        qDebug() << "NewVpnConnectionDialog::setAccountData - Unknown Auth Type";
+        logCritical(Widget, "Unknown Auth Type: %u", authType);
     }
     }
     // Set Network Virtual Adapter (or NIC)
@@ -76,9 +80,12 @@ void NewVpnConnectionDialog::setAccountData(const RpcGetAccount *account) {
 }
 
 void NewVpnConnectionDialog::init() {
+    logInfo(Widget, "Init: create connection dialog window");
+
     auto& cmdAdapter = GetCmdAdapterInstance();
 
     // Default Setting Name
+    logDebug(Widget, "Init default setting name");
     QString defName = "New Vpn Connection";
     QString pattern = defName + " (%1)";
     for (int i = 2; !checkSettingName(defName) && i != INT_MAX; ++i) {
@@ -87,12 +94,14 @@ void NewVpnConnectionDialog::init() {
     _ui->lineEditSettingName->setText(defName);
 
     // Default ports
+    logDebug(Widget, "Init default ports");
     _ui->comboBoxPortNumber->addItem("8888");
     _ui->comboBoxPortNumber->addItem("443");
     _ui->comboBoxPortNumber->addItem("992");
     _ui->comboBoxPortNumber->addItem("5555");
 
     // Virtual Network Adapters
+    logDebug(Widget, "Init Network Adapters");
     QVector<Nic> nicList;
     cmdAdapter.getListNic(nicList);
     for (auto nic: nicList) {
@@ -100,6 +109,7 @@ void NewVpnConnectionDialog::init() {
     }
 
     // Default Auth Type
+    logDebug(Widget, "Init list default Auth Type");
     _ui->comboBoxAuthType->addItem("Anonymous Authentication");
     _ui->comboBoxAuthType->addItem("Standart Password Authentication");
     _ui->comboBoxAuthType->addItem("RADIUS or NT Domain Authentication");
@@ -107,6 +117,7 @@ void NewVpnConnectionDialog::init() {
     _ui->comboBoxAuthType->addItem("Smart Card Authentication");
 
     // For change Auth Type
+    logDebug(Widget, "Init all connections signal-slot");
     connect(_ui->comboBoxAuthType, &QComboBox::currentIndexChanged,
             this, &NewVpnConnectionDialog::onAuthTypeChanged);
 
@@ -150,6 +161,7 @@ bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
 }
 
 void NewVpnConnectionDialog::createAccount() {
+    logInfo(Widget, "Create Account");
     auto settingName = _ui->lineEditSettingName->text();
     auto hostName = _ui->lineEditHostName->text();
     auto port = _ui->comboBoxPortNumber->currentText();
@@ -159,6 +171,7 @@ void NewVpnConnectionDialog::createAccount() {
 }
 
 void NewVpnConnectionDialog::dataValidation() {
+    logDebug(Widget, "Validation");
     QAbstractButton* buttonOk = NULL;
     auto buttons = _ui->buttonBox->buttons();
     for (auto& button: buttons) {
@@ -167,53 +180,65 @@ void NewVpnConnectionDialog::dataValidation() {
         }
     }
     if (buttonOk == NULL) {
-        qDebug() << "NewVpnConnectionDialog::dataValidation - Button \"OK\" not found";
+        logCritical(Widget, "Button \"OK\" not found");
         return;
     }
 
     // Check Setting Name
     auto settingName = _ui->lineEditSettingName->text();
     if (settingName.isEmpty()) {
+        logDebug(Widget, "Check Setting Name: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check Setting Name: OK");
 
     // Check HostName
     auto hostName = _ui->lineEditHostName->text();
     if (hostName.isEmpty()) {
+        logDebug(Widget, "Check Host Name: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check Host Name: OK");
 
     // Check Port Number
     auto portStr = _ui->comboBoxPortNumber->currentText();
     bool ok;
     int port = portStr.toUInt(&ok);
     if (!(ok && port > 0 && port <= UINT16_MAX)) {
+        logDebug(Widget, "Check Port Name: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check Port Name: OK");
 
     // Check Virtual NubName
     auto hubName = _ui->comboBoxHubName->currentText();
     if (hubName.isEmpty()) {
+        logDebug(Widget, "Check Nub Name: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check Nub Name: OK");
 
     // Check Virtual Adapter
     auto currentNic = _ui->listWidgetNics->currentRow();
     if (currentNic == -1) {
+        logDebug(Widget, "Check Virtual Adapter: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check Virtual Adapter: OK");
 
     // Check User Name
     auto userName = _ui->lineEditUserName->text();
     if (userName.isEmpty()) {
+        logDebug(Widget, "Check User Name: ERROR");
         buttonOk->setDisabled(true);
         return;
     }
+    logDebug(Widget, "Check User Name: OK");
 
     buttonOk->setEnabled(true);
 }
@@ -224,9 +249,10 @@ AuthType NewVpnConnectionDialog::getAuthType() {
 }
 
 void NewVpnConnectionDialog::removeAuth() {
+    logInfo(Widget, "Remove Auth");
     auto layout = _ui->gridLayoutUpdate->layout();
     while (QLayoutItem* item = layout->takeAt(0)) {
-        qDebug() << "NewVpnConnectionDialog::removeAuth - remove: " << item->widget();
+        qCDebug(Widget()) << "Remove auth: " << item->widget();
         delete item->widget();
         delete item;
     }
@@ -234,12 +260,14 @@ void NewVpnConnectionDialog::removeAuth() {
 
 void NewVpnConnectionDialog::setAnonimousAuth() {
     removeAuth();
+    logInfo(Widget, "Set Anonimous Auth");
     auto horizontalSpacer = new QSpacerItem(10, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
     _ui->gridLayoutUpdate->addItem(horizontalSpacer, 1, 0, 1, 1);
 }
 
 void NewVpnConnectionDialog::setStandartAuth() {
     removeAuth();
+    logInfo(Widget, "Set Standart Auth");
 
     auto labelPassword = new QLabel(_ui->groupBox_5);
     labelPassword->setObjectName(QString::fromUtf8("labelPassword"));
@@ -281,6 +309,7 @@ void NewVpnConnectionDialog::setStandartAuth() {
 
 void NewVpnConnectionDialog::setRadiusAuth() {
     removeAuth();
+    logInfo(Widget, "Set Radius Auth");
 
     auto label = new QLabel(_ui->groupBox_5);
     label->setObjectName(QString::fromUtf8("label"));
@@ -314,6 +343,7 @@ void NewVpnConnectionDialog::setRadiusAuth() {
 
 void NewVpnConnectionDialog::setCertAuth() {
     removeAuth();
+    logInfo(Widget, "Set Sertificate Auth");
 
     auto pushButtonViewCert = new QPushButton(_ui->groupBox_5);
     pushButtonViewCert->setObjectName(QString::fromUtf8("pushButtonViewCert"));
@@ -345,6 +375,7 @@ void NewVpnConnectionDialog::setCertAuth() {
 
 void NewVpnConnectionDialog::setSmartCardAuth() {
     removeAuth();
+    logInfo(Widget, "Set Smart Card Auth");
 
     auto pushButtonSelectSmartCard = new QPushButton(_ui->groupBox_5);
     pushButtonSelectSmartCard->setObjectName(QString::fromUtf8("pushButtonSelectSmartCard"));
@@ -382,7 +413,7 @@ void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
         close();
     }
     else {
-        qDebug() << "NewVpnConnectionDialog::slotButtonBox - unknow button is click";
+        logWarning(Widget, "Unknow button is click");
     }
 }
 
@@ -409,7 +440,7 @@ void NewVpnConnectionDialog::onAuthTypeChanged(int index) {
     }; break;
 
     default: {
-        qDebug() << "NewVpnConnectionDialog::onAuthTypeChanged - Unknown Auth Type";
+        logCritical(Widget, "Unknown Auth Type");
     }
     }
 }

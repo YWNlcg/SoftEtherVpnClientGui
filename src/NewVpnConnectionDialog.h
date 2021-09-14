@@ -6,6 +6,7 @@
 
 #include "Extern.h"
 #include "Types.h"
+#include "LogHandler.h"
 
 #define QOBJECT_NAME_PASSWORD "lineEditPassword"
 
