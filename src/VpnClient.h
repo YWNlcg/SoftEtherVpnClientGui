@@ -3,12 +3,12 @@
 
 #include "CTypes.h"
 #include "Types.h"
+#include "LogHandler.h"
 
 #define MAYAQUA_DEBUG false
 
 class VpnClient {
 public:
-    VpnClient() {};
     VpnClient(int argc, char** argv);
     ~VpnClient();
     void connect(const char* serverName, const char* serverPass);
