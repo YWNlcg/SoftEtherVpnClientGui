@@ -6,6 +6,7 @@
 #include "ContextMenuAccount.h"
 #include "ContextMenuNic.h"
 #include "CTypes.h"
+#include "LogHandler.h"
 
 CmdAdapter& GetCmdAdapterInstance() {
     static CmdAdapter cmdAdapter;
@@ -13,6 +14,8 @@ CmdAdapter& GetCmdAdapterInstance() {
 }
 
 int main(int argc, char *argv[]) {
+    qInstallMessageHandler(logHandler);
+
     QApplication a(argc, argv);
 
     VpnClient cl(argc, argv);

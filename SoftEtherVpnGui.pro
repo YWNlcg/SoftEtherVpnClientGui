@@ -13,6 +13,7 @@ SOURCES += \
     src/AccountItem.cpp \
     src/ContextMenuAccount.cpp \
     src/ContextMenuNic.cpp \
+    src/LogHandler.cpp \
     src/MainWindow.cpp \
     src/NewAccountItem.cpp \
     src/NewVpnConnectionDialog.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     src/Extern.h \
     src/IAccountItem.h \
     src/INicItem.h \
+    src/LogHandler.h \
     src/MainWindow.h \
     src/CmdAdapter.h \
     src/CTypes.h \
