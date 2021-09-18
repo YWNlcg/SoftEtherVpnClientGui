@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     src/AbstractNewAccount.cpp \
+    src/AccountAdapter.cpp \
     src/AccountItem.cpp \
     src/ContextMenuAccount.cpp \
     src/ContextMenuNic.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 
 HEADERS += \
     src/AbstractNewAccount.h \
+    src/AccountAdapter.h \
     src/AccountItem.h \
     src/ContextMenuAccount.h \
     src/ContextMenuNic.h \

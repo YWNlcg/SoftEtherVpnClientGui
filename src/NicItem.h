@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include "INicItem.h"
+#include "LogHandler.h"
 
 
 class NicItem : public INicItem {
