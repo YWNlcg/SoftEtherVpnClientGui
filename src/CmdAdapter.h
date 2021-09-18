@@ -5,6 +5,7 @@
 #include "Types.h"
 #include "VpnClient.h"
 #include "LogHandler.h"
+#include "AccountAdapter.h"
 
 
 using RpcConStatus = RPC_CLIENT_GET_CONNECTION_STATUS;
@@ -24,8 +25,8 @@ public:
     int enableNic(const QString& nicName);
 //    QVector<Nic> getListNic();
     int getListNic(QVector<Nic>& nics);
-//    int createAccount(AccountAdapter& acAdapter);
-//    int setAccount(AccountAdapter& acAdapter);
+    int createAccount(AccountAdapter& acAdapter);
+    int setAccount(AccountAdapter& acAdapter);
     int deleteAccount(const QString& accountName);
     int getAccountList(QVector<AccountData>& account);
     int getAccount(const QString& name, RpcGetAccount* account);

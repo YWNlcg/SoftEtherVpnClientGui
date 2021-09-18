@@ -83,15 +83,17 @@ int CmdAdapter::getListNic(QVector<Nic> &listNic) {
     return err;
 }
 
-//int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
-//    return CcCreateAccount(_vpnClient->getRemoteClient(),
-//                           acAdapter.getRpcClientCreateAccount());
-//}
+int CmdAdapter::createAccount(AccountAdapter &acAdapter) {
+    logInfo(CA, "Create Account: %s", acAdapter.getAccountName().toStdString().c_str());
+    return CcCreateAccount(_vpnClient->getRemoteClient(),
+                           acAdapter.getRpcClientCreateAccount());
+}
 
-//int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
-//    return CcSetAccount(_vpnClient->getRemoteClient(),
-//                        acAdapter.getRpcClientCreateAccount());
-//}
+int CmdAdapter::setAccount(AccountAdapter &acAdapter) {
+    logInfo(CA, "Set Account: %s", acAdapter.getAccountName().toStdString().c_str());
+    return CcSetAccount(_vpnClient->getRemoteClient(),
+                        acAdapter.getRpcClientCreateAccount());
+}
 
 int CmdAdapter::deleteAccount(const QString &accountName) {
     logInfo(CA, "Delete Account: %s", accountName.toStdString().c_str());
