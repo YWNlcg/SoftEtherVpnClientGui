@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include "CTypes.h"
+#include "LogHandler.h"
 
 using RpcCrAc = RPC_CLIENT_CREATE_ACCOUNT;
 using RpcGtAc = RPC_CLIENT_GET_ACCOUNT;
@@ -18,20 +19,10 @@ using RpcGtAc = RPC_CLIENT_GET_ACCOUNT;
 class AccountAdapter {
 public:
     enum class PortType {TCP, UDP};
-    // Cedar.h (373)
-    enum class AuthType {
-        Anonymous = CLIENT_AUTHTYPE_ANONYMOUS,
-        Standart = CLIENT_AUTHTYPE_PASSWORD,
-        Radius = CLIENT_AUTHTYPE_PLAIN_PASSWORD,
-        Certificate = CLIENT_AUTHTYPE_CERT,
-        SecureDevice = CLIENT_AUTHTYPE_SECURE,
-        Openssl = CLIENT_AUTHTYPE_OPENSSLENGINE
-    };
 
 public:
     AccountAdapter();
     AccountAdapter(const RpcGtAc* other);
-    AccountAdapter(const RpcCrAc* other);
     ~AccountAdapter();
     // Client Option
     int      setAccountName(const QString& accountName);
@@ -59,8 +50,7 @@ private:
     void alloc();
     void free();
     void init();
-    static void copy(RpcCrAc* dest, const RpcCrAc* src);
-    static void copy(RpcGtAc* dest, const RpcGtAc* src);
+    static void copy(RpcCrAc* dest, const RpcGtAc* src);
 
 private:
     RpcCrAc* _account;
