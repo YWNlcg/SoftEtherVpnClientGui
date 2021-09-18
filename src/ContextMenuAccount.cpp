@@ -63,7 +63,7 @@ void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
         }; break;
 
         default: {
-            logWarning(Widget, "Unknow status: %d", item->getStatus());
+            logWarning(Widget, "Unknow status: %d", int(item->getStatus()));
             return;
         }
         }
