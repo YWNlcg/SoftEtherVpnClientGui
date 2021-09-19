@@ -59,6 +59,7 @@ void ContextMenuAccount::exec(const QPoint& pos, IAccountItem* item) {
         }; break;
 
         case AccStatus::Offline: {
+            _actionConnect->setEnabled(true);
             _actionDelete->setEnabled(true);
         }; break;
 
@@ -96,6 +97,11 @@ void ContextMenuAccount::statusAccount() {
 
 void ContextMenuAccount::connectAccount() {
     logDebug(Widget, "Button pressed - \"Connect\"");
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    auto err = cmdAdapter.connect(_item->getTitle());
+    if (err != ERR_NO_ERROR) {
+        QMessageBox::critical(_menu, PROGRAMM_NAME, GetErrorStr(err));
+    }
 }
 
 void ContextMenuAccount::disconnectAccount() {
