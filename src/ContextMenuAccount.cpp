@@ -106,4 +106,9 @@ void ContextMenuAccount::connectAccount() {
 
 void ContextMenuAccount::disconnectAccount() {
     logDebug(Widget, "Button pressed - \"Disconnect\"");
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    auto err = cmdAdapter.disconnect(_item->getTitle());
+    if (err != ERR_NO_ERROR) {
+        QMessageBox::critical(_menu, PROGRAMM_NAME, GetErrorStr(err));
+    }
 }
