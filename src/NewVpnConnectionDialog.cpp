@@ -160,14 +160,45 @@ bool NewVpnConnectionDialog::checkSettingName(const QString &name) {
     return true;
 }
 
-void NewVpnConnectionDialog::createAccount() {
+int NewVpnConnectionDialog::createAccount() {
     logInfo(Widget, "Create Account");
     auto settingName = _ui->lineEditSettingName->text();
     auto hostName = _ui->lineEditHostName->text();
     auto port = _ui->comboBoxPortNumber->currentText();
-    auto nubName = _ui->comboBoxHubName->currentText();
+    auto hubName = _ui->comboBoxHubName->currentText();
     auto nic = _ui->listWidgetNics->currentItem()->text();
     auto userName = _ui->lineEditUserName->text();
+    auto authType = getAuthType();
+
+    AccountAdapter acAdapter;
+    acAdapter.setAccountName(settingName);
+    acAdapter.setHostName(hostName);
+    acAdapter.setPort(port.toUShort(), AccountAdapter::PortType::TCP);
+    acAdapter.setHubName(hubName);
+    acAdapter.setDeviceName(nic);
+    acAdapter.setUserName(nic);
+    acAdapter.setAuthType(authType);
+
+    if (authType == AuthType::Password || authType == AuthType::Radius) {
+        auto passwordItem = findChild<QLineEdit*>(QOBJECT_NAME_PASSWORD);
+        if (passwordItem != NULL) {
+            auto password = passwordItem->text();
+            acAdapter.setPassword(password);
+        }
+        else {
+            logCritical(DefLog, "Password (QLineEdit) not found");
+            // TODO: Add correct exit
+            return -1;
+        }
+    }
+    else {
+        // TODO: add other AuthType
+        return -1;
+    }
+
+    auto& cmdAdapter = GetCmdAdapterInstance();
+    cmdAdapter.createAccount(acAdapter);
+    return 0;
 }
 
 void NewVpnConnectionDialog::dataValidation() {
@@ -407,7 +438,10 @@ void NewVpnConnectionDialog::setSmartCardAuth() {
 
 void NewVpnConnectionDialog::onButtonBoxClicked(QAbstractButton *button) {
     if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
-        createAccount();
+        auto err = createAccount();
+        if (err == 0) {
+            close();
+        }
     }
     else if (_ui->buttonBox->standardButton(button) == QDialogButtonBox::Cancel) {
         close();

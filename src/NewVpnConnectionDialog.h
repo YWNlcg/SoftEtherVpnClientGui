@@ -25,7 +25,7 @@ public:
 private:
     void init();
     bool checkSettingName(const QString& name);
-    void createAccount();
+    int createAccount();
     void dataValidation();
     AuthType getAuthType();
     void removeAuth();
